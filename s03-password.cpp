@@ -1,23 +1,24 @@
 #include <iostream>
 #include <string>
 
-auto main() -> int
+auto main(int argc, char* argv[]) -> int
 {
-std::string password = "student";
-auto line = std::string{};
+std::string provided_password;
+if(argc <= 1){
+
+std::cout<<"error"<< "\n";
+return 1;
+}
+
+std::string password = std::string(argv[1]);
 
 do
 {
-std::getline(std::cin, line);
-
-if(line == password){
-std::cout<<"correct"<<std::endl;
-}else{
-std::cout<<"incorrect"<<std::endl;
-}
-
-}while(line != password);
-
+	std::cout << "password: " <<"\n";
+	std::cin>>provided_password;
+	
+}while(password != provided_password);
+std::cout<<"correct password\n";
 return 0;
 
 }

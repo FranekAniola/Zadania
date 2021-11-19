@@ -1,3 +1,6 @@
+#ifndef student
+#define student
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -30,3 +33,4 @@ struct Student{
 	return result.str();    
     }
 };
+#endif

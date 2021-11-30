@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <sstring>
+#include <sstream>
 #include <vector>
 #include <algorithm>
 
@@ -19,57 +19,68 @@ struct Student{
 		surname = sn;
 		index = i;
 		semester = sm;
-		avarage = ag;
-    }
+    }	
+
     
 };
-
-	std::string imie()
-	{
-		std::cout<<"Give the name: \n"
-		std::cin>>name;
-		return 0;
+ std::string name(std::string n){
+		std::cout<<"\npass a name: \n";
+		std::cin>>n;
+		return n;
+	}
+    
+    std::string surname(std::string sn){
+		std::cout<<"pass a surname: \n";
+		std::cin>>sn;
+		return sn;
 	}
 	
-	std::string surname()
-	{
-		std::cout<<"Give the surname: \n"
-		std::cin>>surname;
-		return 0;
+    std::string index(std::string i){
+		std::cout<<"pass an index: \n";
+		std::cin>>i;
+		return i;
 	}
 	
-	std::string index()
-	{
-		std::cout<<"Give the index: \n"
-		std::cin>>index;
-		return 0;
+	int semester(int sm){
+	std::cout<<"Pass the current semester: \n";
+	std::cin>>sm;
+	return sm;	
 	}
 	
-	std::string avarage()
-	{
-		std::cout<<"Give the avarage: \n"
-		std::cin>>avarage;
-		return 0;
+    void pushing(Student student){
+
+		std::vector<Student>vectorStudent;
+		vectorStudent.push_back(student);
+		int vSize = vectorStudent.size();
+		vSize++;
+		std::cout<<"List of size is: "<<vSize<<"\n";
 	}
-
-
-
+	
+	
 auto main() -> int
 {
-	int choice;
+	std::string n, sn, i;
+	int sm, choice;
 	
-	std::cout<<"1. Dodaj studenta \n";
-	std::cout<<"2. usun studenta \n";
-	std::cout<<"3. wyswietl studenta \n";
-	std::cout<<"4. Zakoncz program \n";
-	std::cout<<"Podaj jaka akcje wykonac \n";
+	do{
 	
-	std::vector <Student*> vectorStudent;
-	vectorStudent.erase(vectorStudent.begin());
-	
-	switch(choice):
-	case 1:
-	vectorStudent.push_back(Student);
-	default:
-	break;s
+	std::cout<<"1. Adding a new student \n";
+	std::cout<<"2. Deleteing a student\n";
+	std::cout<<"3. View a full array of students\n";
+	std::cout<<"4. End process\n"; 
+	std::cout<<"Pass what action you want to perform: ";
+		
+		
+		std::cin>>choice;
+		
+		switch(choice){
+		case 1:
+		auto s1 = Student{name(n),surname(sn), index(i), semester(sm)};
+		pushing(s1);
+		break;
+		}
+		
+	}while(choice != 4);
+		return 0;
+
 }

@@ -27,7 +27,7 @@ struct Student{
     
 };
  std::string name(std::string n){
-		std::cout<<"\npass a name: \n";
+		std::cout<<"pass a name: \n";
 		std::cin>>n;
 		return n;
 	}
@@ -93,16 +93,19 @@ auto main() -> int
 		std::cout<<"Size of list of Students is: "<<vSize<<"\n";
 		break;
 		case 2:
+			if(vectorStudent.empty())
+			std::cout<<" List is empty\n";
+		else
 			studentList(vectorStudent);
 		break;
 		case 3:
 		std::cout<<"Provide, which student would you like to delete:  ";
 		std::cin>>del;
-		vectorStudent.erase(vectorStudent.begin() + (del -1));
+		vectorStudent.erase(vectorStudent.begin() +(del -1));
 		std::cout<<"Student nr: "<<del<<"has been deleted\n";
 		break;
 		}
-		
+
 	}while(choice != 4);
 		return 0;
 

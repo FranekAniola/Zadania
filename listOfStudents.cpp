@@ -20,7 +20,10 @@ struct Student{
 		index = i;
 		semester = sm;
     }	
-
+	void view(){
+		std::cout<<"\n name: " << name <<" surname: " << surname << 
+		" index: " << index << " semester: " << semester<< std::endl;
+		}
     
 };
  std::string name(std::string n){
@@ -52,38 +55,51 @@ struct Student{
 		std::vector<Student>vectorStudent;
 		vectorStudent.push_back(student);
 		int vSize = vectorStudent.size();
-		vSize++;
 		std::cout<<"List of size is: "<<vSize<<"\n";
 		*/
 	}
 	
+	void studentList(std::vector<Student*> vectorStudent){
+	int k=0;
+		for(Student* student : vectorStudent){					
+		std::cout << k << " ";
+		student->view();
+		k++;
+		}
+	}
 	
 auto main() -> int
 {
-	std::vector<Student>vectorStudent;
+	std::vector<Student*>vectorStudent;
 	std::string n, sn, i;
-	int sm, choice, vSize;
-	vSize = vectorStudent.size();
+	int sm, choice, vSize, del;
+	
 
 	do{
 	
 	std::cout<<"1. Adding a new student \n";
-	std::cout<<"2. Deleteing a student\n";
-	std::cout<<"3. View a full array of students\n";
+	std::cout<<"2. View a full array of students\n";
+	std::cout<<"3. Deleteing a student\n";
 	std::cout<<"4. End process\n"; 
 	std::cout<<"Pass what action you want to perform: ";
-		
 		
 		std::cin>>choice;
 		
 		switch(choice){
 		case 1:
+		vectorStudent.push_back(new Student {name(n),surname(sn), index(i), semester(sm)});
 		
-		auto s1 = Student{name(n),surname(sn), index(i), semester(sm)};		
-		vectorStudent.push_back(s1);
-		vSize++;
-		
+		vSize = vectorStudent.size();
 		std::cout<<"Size of list of Students is: "<<vSize<<"\n";
+		break;
+		case 2:
+			studentList(vectorStudent);
+		break;
+		case 3:
+		std::cout<<"Provide, which student would you like to delete:  ";
+		std::cin>>del;
+		vectorStudent.erase(vectorStudent.begin() + (del -1));
+		std::cout<<"Student nr: "<<del<<"has been deleted\n";
 		break;
 		}
 		

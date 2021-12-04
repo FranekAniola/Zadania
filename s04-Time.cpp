@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cstdint>
 
 struct Time{
 private:
@@ -11,12 +12,27 @@ int minute;
 int second;
 
 public:
+Time()=default;
+
+auto countSeconds(Time x)const -> uint64_t{
+	int result=(hour*3600)+(minute*60)+second;
+	return result;
+}
+
+auto countMinutes(Time y)const -> uint64_t{
+	
+	int result=hour*60+minute;
+	return result;
+	}
+
+
 
 Time(int h, int m, int s){
 	hour = h;
 	minute = m;
 	second = s;
 }
+
 		enum class TimeOfTheDay{
 			morning,
 			afternoon,
@@ -71,7 +87,6 @@ Time(int h, int m, int s){
 		}
 	}
 
-		
 	void next_second(){
 		if(second==59){
 		second=0;
@@ -115,14 +130,40 @@ Time(int h, int m, int s){
 			return TimeOfTheDay::night;
 		}
 	}
+		
+	auto timeToMidnight()const -> Time{
+	Time toMidnight;
+	toMidnight.hour=23-hour;
+	toMidnight.minute=59-minute;
+	toMidnight.second=60-second;
+	
+	if(second==0){
+	toMidnight.second=second;
+	toMidnight.minute=60-minute;
+	}else{
+	toMidnight.second=60-second;
+	toMidnight.minute=59-minute;
+	}
+	
+	if(minute==0){
+	toMidnight.minute=minute;
+	toMidnight.hour=24-hour;	
+	}else{
+	toMidnight.hour=23-hour;
+	toMidnight.minute=59-minute;
+	}
+	return toMidnight;
+	}
+
+
 };
+
 
 
 
 auto main() ->int
 {
-	auto t = Time{23,2,12};
-	
+	auto t = Time{22,2,3};
 	
 	t.next_hour();
 	
@@ -130,7 +171,10 @@ auto main() ->int
 	
 	std::cout<<t.string2(t.tod())<<std::endl;
 	
+	std::cout<<t.countSeconds(t)<< " seconds have passed since midnight :>" <<std::endl;
+	std::cout<<t.countMinutes(t)<< " minutes have passed since midnight :>" <<std::endl;
 	
+	std::cout<<t.timeToMidnight().to_string()<< " time left to midnight :>" <<std::endl;
 	return 0;
 	
 }

@@ -133,10 +133,7 @@ Time(int h, int m, int s){
 		
 	auto timeToMidnight()const -> Time{
 	Time toMidnight;
-	toMidnight.hour=23-hour;
-	toMidnight.minute=59-minute;
-	toMidnight.second=60-second;
-	
+
 	if(second==0){
 	toMidnight.second=second;
 	toMidnight.minute=60-minute;
@@ -150,7 +147,7 @@ Time(int h, int m, int s){
 	toMidnight.hour=24-hour;	
 	}else{
 	toMidnight.hour=23-hour;
-	toMidnight.minute=59-minute;
+	toMidnight.minute=60-minute;
 	}
 	return toMidnight;
 	}
@@ -163,7 +160,7 @@ Time(int h, int m, int s){
 
 auto main() ->int
 {
-	auto t = Time{22,2,3};
+	auto t = Time{13,22,0};
 	
 	t.next_hour();
 	

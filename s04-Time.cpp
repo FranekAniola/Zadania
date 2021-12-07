@@ -151,27 +151,97 @@ Time(int h, int m, int s){
 	}
 	return toMidnight;
 	}
-
+	
+	auto operator + (Time const& other) const -> Time{
+		
+		Time add;
+		
+		if(hour+other.hour>=24){
+			add.hour = hour+other.hour - 24;
+		}else{
+			 add.hour = hour+other.hour;
+		}
+		if(minute+other.minute>=60){
+			 add.minute = minute+other.minute - 60;
+		}else{
+			 add.minute = minute+other.minute;
+		}
+		
+		if(second+other.second>=60){
+			 add.second = second+other.second - 60;
+		}else{
+			 add.second = second+other.second;
+		}
+		return add;
+	}
+	
+	auto operator - ( Time const & other) const -> Time{
+		Time sub;
+		
+		if(hour-other.hour<0){
+			sub.hour = hour-other.hour + 24;
+		}else{
+			 sub.hour = hour-other.hour;
+		}
+		if(minute-other.minute<0){
+			 sub.minute = minute-other.minute + 60;
+			 sub.hour--;
+		}else{
+			 sub.minute = minute-other.minute;
+		}
+		
+		if(second-other.second<0){
+			 sub.second = second-other.second + 60;
+			 sub.minute--;
+		}else{
+			 sub.second = second-other.second;
+		}
+		return sub;
+	}
+	
+	auto operator ==(Time const & other) const -> bool{
+		
+		return (hour == other.hour && minute == other.minute && second == other.second); 
+	}
+	auto operator !=(Time const & other) const -> bool{
+		
+		return !(*this==other);//second option to do it
+	}
 
 };
 
 
-
-
 auto main() ->int
 {
-	auto t = Time{13,22,0};
+	auto t = Time{4,24,5};
 	
+	auto t2 = Time{5,24,5};
+	Time result = t + t2;
+	Time result2 = t - t2;
+	bool result3 = t==t2;
+	bool result4 = t!=t2;
+	
+		
 	t.next_hour();
+	t2.next_hour();
 	
 	std::cout<<t.to_string()<<std::endl;
 	
 	std::cout<<t.string2(t.tod())<<std::endl;
 	
-	std::cout<<t.countSeconds(t)<< " seconds have passed since midnight :>" <<std::endl;
-	std::cout<<t.countMinutes(t)<< " minutes have passed since midnight :>" <<std::endl;
+	std::cout<<t.countSeconds(t)<<" seconds have passed since midnight :>"<<std::endl;
+	std::cout<<t.countMinutes(t)<<" minutes have passed since midnight :>"<<std::endl;
 	
-	std::cout<<t.timeToMidnight().to_string()<< " time left to midnight :>" <<std::endl;
+	std::cout<<t.timeToMidnight().to_string()<<" time left to midnight :>"<<std::endl;
+	
+	std::cout<<result.to_string()<<std::endl;
+	
+	std::cout<<result2.to_string()<<std::endl;
+		
+	std::cout<<"Check if first time: "<< t.to_string() << " equels to second time: "<< t2.to_string()<< " Answer:" <<result3<<std::endl;
+	std::cout<<"Check if first time: "<< t.to_string() << "is not equel to second time: "<< t2.to_string()<< " Answer:" <<result4<<std::endl;
+
+
 	return 0;
 	
 }

@@ -29,7 +29,6 @@ auto IsInputValid(int& rowInt, int& x,std::string ship, std::vector<char>& row, 
 }
 
 
-
 auto PrintBoard(std::vector<char>& row, std::vector<int>& collumn, std::vector<std::vector<char>>& vec) -> void {
 	
 	for(int i = 0;i < collumn.size();++i) {
@@ -88,7 +87,6 @@ auto main(int argc, char *argv[]) -> int {
     auto collumn = std::vector<int>{0,1,2,3,4,5,6,7,8,9};
     auto rowToNumbers = std::vector<int>{};
     
-  
     
     PrintBoard(row, collumn, vec);
 	
@@ -98,14 +96,18 @@ auto main(int argc, char *argv[]) -> int {
 	char h = 'h';
 	char shipField = 'x';
 	
-	std::string firstShip,secondShip,thirdShip,frtShip,fivthShip,sixthShip;
+	
 
-	firstShip = std::string(argv[1]);
-	secondShip = std::string(argv[2]);
-	thirdShip = std::string(argv[3]);
-	frtShip = std::string(argv[4]);
-	fivthShip = std::string(argv[5]);
-	sixthShip = std::string(argv[6]);
+	std::string firstShip = std::string(argv[1]);
+	std::string secondShip = std::string(argv[2]);
+	std::string thirdShip = std::string(argv[3]);
+	std::string frtShip = std::string(argv[4]);
+	std::string fivthShip = std::string(argv[5]);
+	std::string sixthShip = std::string(argv[6]);
+	std::string seventhShip = std::string(argv[7]);
+	std::string eightShip = std::string(argv[8]);
+	std::string ninethShip = std::string(argv[9]);
+	std::string tenthShip = std::string(argv[10]);
 
 	settingUpShips(argv,1,firstShip, rowInt, x, row, collumn, shipField, 4, v,h,vec);
 	settingUpShips(argv,2,secondShip, rowInt, x, row, collumn, shipField, 3, v,h,vec);
@@ -113,6 +115,10 @@ auto main(int argc, char *argv[]) -> int {
 	settingUpShips(argv,4,frtShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
 	settingUpShips(argv,5,fivthShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
 	settingUpShips(argv,6,sixthShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
+	settingUpShips(argv,7,seventhShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
+	settingUpShips(argv,8,eightShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
+	settingUpShips(argv,9,ninethShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
+	settingUpShips(argv,10,tenthShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
 
 	PrintBoard(row, collumn, vec);
 	

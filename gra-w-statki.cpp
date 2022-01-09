@@ -47,6 +47,27 @@ auto PrintBoard(std::vector<char>& row, std::vector<int>& collumn, std::vector<s
 	}
 }
 
+auto settingUpShips(char *argv[], int argvNum, std::string ship, int& rowInt, int& x, std::vector<char>& row, std::vector<int>& collumn, char shipField, int iValue, char v, char h,std::vector<std::vector<char>>& vec) -> void{ 
+	
+	if(argv[argvNum] && ship[2] == h) {
+		IsInputValid(rowInt,x,ship,row,collumn);
+		std::cout<<std::endl;
+		
+		for(int i = 0; i < iValue;++i) {
+			vec[rowInt][x+i] = shipField;
+		}
+		
+	} else if(argv[argvNum] && ship[2] == v) {
+		IsInputValid(rowInt,x,ship,row,collumn);
+		std::cout<<std::endl;
+		
+		for(int i = 0; i < iValue;++i) {
+			vec[rowInt+i][x] = shipField;
+		}
+	}
+
+}
+
 auto main(int argc, char *argv[]) -> int {
 	
 	std::vector<std::vector<char>> vec =
@@ -75,41 +96,24 @@ auto main(int argc, char *argv[]) -> int {
 	int rowInt;
 	char v = 'v';
 	char h = 'h';
+	char shipField = 'x';
 	
-	std::string firstShip;
-	std::string secondShip;
-	
+	std::string firstShip,secondShip,thirdShip,frtShip,fivthShip,sixthShip;
+
 	firstShip = std::string(argv[1]);
 	secondShip = std::string(argv[2]);
-	
-	
+	thirdShip = std::string(argv[3]);
+	frtShip = std::string(argv[4]);
+	fivthShip = std::string(argv[5]);
+	sixthShip = std::string(argv[6]);
 
+	settingUpShips(argv,1,firstShip, rowInt, x, row, collumn, shipField, 4, v,h,vec);
+	settingUpShips(argv,2,secondShip, rowInt, x, row, collumn, shipField, 3, v,h,vec);
+	settingUpShips(argv,3,thirdShip, rowInt, x, row, collumn, shipField, 3, v,h,vec);
+	settingUpShips(argv,4,frtShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
+	settingUpShips(argv,5,fivthShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
+	settingUpShips(argv,6,sixthShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
 
-	char ShipField = 'x';
-	
-	if(argv[1] && firstShip[2] == h) {
-		IsInputValid(rowInt,x,firstShip,row,collumn);
-		std::cout<<std::endl;
-		
-		for(int i = 0; i < 4;++i) {
-			vec[rowInt][x+i] = ShipField;
-		}
-		
-	} else if(argv[1] && firstShip[2] == v) {
-		IsInputValid(rowInt,x,firstShip,row,collumn);
-		std::cout<<std::endl;
-		
-		for(int i = 0; i < 4;++i) {
-			vec[rowInt+i][x] = ShipField;
-		}
-	
-	}
-	
-	IsInputValid(rowInt,x,secondShip,row,collumn);
-	std::cout<<std::endl;
-	
-	vec[rowInt][x] = ShipField;
-	
 	PrintBoard(row, collumn, vec);
 	
 	return 0;

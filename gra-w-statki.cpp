@@ -16,7 +16,7 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship,
 		std::cout<<" Correct parameter";
 		x = atoi(secondCharacter);
 	} else {
-		std::cout<<"Wrong parameter";
+		std::cout<<" Wrong parameter";
 	}
 	
 	for(int i = 0; i < collumn.size(); ++i) {
@@ -58,21 +58,58 @@ std::vector<std::vector<char>>& vec) -> void {
 	int var2 = 0;
 	bool isPicked;
 	bool isPicked2;
-	if(iValue <= 1){
+	bool isNoSpace;
+	bool isNoSpace2;
+	bool isNoSpace3;
+	bool isNoSpace4;
 	
+	if(iValue <= 1) {
 		if(argv[argvNum]) {
 			IsInputValid(collumnInt,x,ship,collumn,row);
 			std::cout<<std::endl;
 		
 			for(int i = 0; i < iValue;++i) {
-				if(vec[x][collumnInt+i] == shipField){
+				if(vec[x][collumnInt+i] == shipField) {
 					std::cout<<"you ve alredy picked that place \n";
 					exit(1);
 				}else{
-					vec[x][collumnInt+i] = shipField;
+					
+					if(collumnInt != 9) {
+						isNoSpace = vec[x][collumnInt+1] != shipField;
+					} else {
+					isNoSpace = true;
+					}
+					
+					if(collumnInt != 0) {
+						isNoSpace2 = vec[x][collumnInt-1] != shipField;
+					} else {
+					isNoSpace2 = true;
+					}
+					
+					isNoSpace2 = vec[x][collumnInt-1] != shipField;
+					
+					if(x != 9) {
+						isNoSpace3 = vec[x+1][collumnInt] != shipField;
+					}else{
+					isNoSpace3 = true;
+					}
+					
+					if(x != 0) {
+						isNoSpace4 = vec[x-1][collumnInt] != shipField;
+					}else{
+					isNoSpace4 = true;
+					}
+					
+					isNoSpace4 = vec[x-1][collumnInt] != shipField;
+					
+					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4) {
+							vec[x][collumnInt+i] = shipField;
+					} else {
+					std::cout<<"there has to be one space between ships!\n";
+					exit(1);
+					}
 				}			
 			}
-		
 		}
 
 	} else {
@@ -87,21 +124,21 @@ std::vector<std::vector<char>>& vec) -> void {
 					std::cout<<"Unforunetly there is no more space left \n";
 					exit(1);	
 				}
-			}
+			} 
 			
 			for(int i = 0; i < 4;++i) {
 				
 				isPicked = vec[x][collumnInt+i] == shipField;
 				
-				if(isPicked == true){
+				if(isPicked == true) {
 					std::cout<<"you ve alredy picked that place \n";
 					exit(1);
-				}else{
+				} else {
 					break;
 				}
 			}
 			
-			if(isPicked == false){
+			if(isPicked == false) {
 				for(int j = 0; j < iValue;++j) {
 					vec[x][collumnInt+j] = shipField;
 				}
@@ -111,7 +148,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			IsInputValid(collumnInt,x,ship,collumn,row);
 			std::cout<<std::endl;
 			
-			for(int i = 0; i < 4; ++i){
+			for(int i = 0; i < 4; ++i) {
 				var2++;
 				if(iValue == 1 + var2 &&  x == row[10-var2] ) {
 				
@@ -124,19 +161,17 @@ std::vector<std::vector<char>>& vec) -> void {
 				
 				isPicked = vec[x+i][collumnInt] == shipField;
 				
-				if(isPicked2 == true){
+				if(isPicked2 == true) {
 					std::cout<<"you ve alredy picked that place \n";
 					
 					exit(1);
-				}else{
+				} else {
 					break;
 				}
 			}
 			
 			if(isPicked2 == false) {
-				
 				for(int i = 0; i < iValue;++i) {
-				
 					vec[x+i][collumnInt] = shipField;
 				}
 			}

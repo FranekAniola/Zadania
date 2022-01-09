@@ -4,7 +4,7 @@
 #include <vector>
 
 
-auto IsInputValid(int& rowInt, int& x,std::string ship, std::vector<char>& row, std::vector<int>& collumn) -> bool {
+auto IsInputValid(int& collumnInt, int& x,std::string ship, std::vector<char>& collumn, std::vector<int>& row) -> bool {
 	char* secondCharacter = &ship[1];
 
 	bool isEqualK = isdigit(ship[1]);
@@ -18,9 +18,9 @@ auto IsInputValid(int& rowInt, int& x,std::string ship, std::vector<char>& row, 
 		std::cout<<"Wrong parameters";
 	}
 	
-	for(int i = 0; i <10; ++i) {
-		if(ship[0] == row[i]) {
-			rowInt = i;
+	for(int i = 0; i <collumn.size(); ++i) {
+		if(ship[0] == collumn[i]) {
+			collumnInt = i;
 			break;
 		}
 	}
@@ -29,39 +29,40 @@ auto IsInputValid(int& rowInt, int& x,std::string ship, std::vector<char>& row, 
 }
 
 
-auto PrintBoard(std::vector<char>& row, std::vector<int>& collumn, std::vector<std::vector<char>>& vec) -> void {
+auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row, std::vector<std::vector<char>>& vec) -> void {
 	
-	for(int i = 0;i < collumn.size();++i) {
-		std::cout<< " " << collumn[i] << "  "; 
+	for(int i = 0;i < row.size();++i) {
+		std::cout<< "  " << collumn[i] << " "; 
 	}
 	
 	std::cout<<std::endl;
 	
 	for(int i = 0; i < vec.size();++i) {
+		std::cout<<row[i];
 		for(int j = 0;j < vec[i].size();++j) {
 			std::cout<<'|' << vec[i][j] << "| ";
 		}
-		std::cout<<row[i];
+		
 		std:: cout << std::endl;
 	}
 }
 
-auto settingUpShips(char *argv[], int argvNum, std::string ship, int& rowInt, int& x, std::vector<char>& row, std::vector<int>& collumn, char shipField, int iValue, char v, char h,std::vector<std::vector<char>>& vec) -> void{ 
+auto settingUpShips(char *argv[], int argvNum, std::string ship, int& collumnInt, int& x, std::vector<char>& collumn, std::vector<int>& row, char shipField, int iValue, char v, char h,std::vector<std::vector<char>>& vec) -> void{ 
 	
-	if(argv[argvNum] && ship[2] == h) {
-		IsInputValid(rowInt,x,ship,row,collumn);
+	if(argv[argvNum] || ship[2] == h) {
+		IsInputValid(collumnInt,x,ship,collumn,row);
 		std::cout<<std::endl;
 		
 		for(int i = 0; i < iValue;++i) {
-			vec[rowInt][x+i] = shipField;
+			vec[x][collumnInt+i] = shipField;
 		}
 		
-	} else if(argv[argvNum] && ship[2] == v) {
-		IsInputValid(rowInt,x,ship,row,collumn);
+	} else if(argv[argvNum] || ship[2] == v) {
+		IsInputValid(collumnInt,x,ship,collumn,row);
 		std::cout<<std::endl;
 		
 		for(int i = 0; i < iValue;++i) {
-			vec[rowInt+i][x] = shipField;
+			vec[x+i][collumnInt] = shipField;
 		}
 	}
 
@@ -83,20 +84,17 @@ auto main(int argc, char *argv[]) -> int {
         {'.', '.', '.','.', '.', '.','.', '.', '.','.'}, //10
     };
       
-    auto row = std::vector<char> {'A','B','C','D','E','F','G','H','I','J'};
-    auto collumn = std::vector<int>{0,1,2,3,4,5,6,7,8,9};
-    auto rowToNumbers = std::vector<int>{};
+    auto collumn = std::vector<char> {'A','B','C','D','E','F','G','H','I','J'};
+    auto row = std::vector<int>{0,1,2,3,4,5,6,7,8,9};
     
     
-    PrintBoard(row, collumn, vec);
+    PrintBoard(collumn, row, vec);
 	
 	int x;
-	int rowInt;
+	int collumnInt;
 	char v = 'v';
 	char h = 'h';
 	char shipField = 'x';
-	
-	
 
 	std::string firstShip = std::string(argv[1]);
 	std::string secondShip = std::string(argv[2]);
@@ -109,18 +107,18 @@ auto main(int argc, char *argv[]) -> int {
 	std::string ninethShip = std::string(argv[9]);
 	std::string tenthShip = std::string(argv[10]);
 
-	settingUpShips(argv,1,firstShip, rowInt, x, row, collumn, shipField, 4, v,h,vec);
-	settingUpShips(argv,2,secondShip, rowInt, x, row, collumn, shipField, 3, v,h,vec);
-	settingUpShips(argv,3,thirdShip, rowInt, x, row, collumn, shipField, 3, v,h,vec);
-	settingUpShips(argv,4,frtShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
-	settingUpShips(argv,5,fivthShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
-	settingUpShips(argv,6,sixthShip, rowInt, x, row, collumn, shipField, 2, v,h,vec);
-	settingUpShips(argv,7,seventhShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
-	settingUpShips(argv,8,eightShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
-	settingUpShips(argv,9,ninethShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
-	settingUpShips(argv,10,tenthShip, rowInt, x, row, collumn, shipField, 1, v,h,vec);
+	settingUpShips(argv,1,firstShip, collumnInt, x, collumn, row, shipField, 4, v,h,vec);
+	settingUpShips(argv,2,secondShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
+	settingUpShips(argv,3,thirdShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
+	settingUpShips(argv,4,frtShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
+	settingUpShips(argv,5,fivthShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
+	settingUpShips(argv,6,sixthShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
+	settingUpShips(argv,7,seventhShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	settingUpShips(argv,8,eightShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	settingUpShips(argv,9,ninethShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	settingUpShips(argv,10,tenthShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
 
-	PrintBoard(row, collumn, vec);
+	PrintBoard(collumn, row, vec);
 	
 	return 0;
 }

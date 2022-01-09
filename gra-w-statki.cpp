@@ -12,10 +12,10 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship, std::vector<char>& c
 	bool isEqualR = (ship[0] >= 'A') && (ship[0] <= 'J');
 	
 	if(isEqualK && isEqualR) {
-		std::cout<<"\n Correct parameters";
+		std::cout<<"\n Correct parameter";
 		x = atoi(secondCharacter);
 	} else {
-		std::cout<<"Wrong parameters";
+		std::cout<<"Wrong parameter";
 	}
 	
 	for(int i = 0; i <collumn.size(); ++i) {
@@ -49,7 +49,22 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row, std::vector<s
 
 auto settingUpShips(char *argv[], int argvNum, std::string ship, int& collumnInt, int& x, std::vector<char>& collumn, std::vector<int>& row, char shipField, int iValue, char v, char h,std::vector<std::vector<char>>& vec) -> void{ 
 	
-	if(argv[argvNum] || ship[2] == h) {
+	if(iValue <= 1){
+	
+		if(argv[argvNum]) {
+			IsInputValid(collumnInt,x,ship,collumn,row);
+			std::cout<<std::endl;
+		
+			for(int i = 0; i < iValue;++i) {
+				vec[x][collumnInt+i] = shipField;
+			}
+		
+		}
+
+	}else{
+	
+	
+	if(argv[argvNum] && ship[2] == h) {
 		IsInputValid(collumnInt,x,ship,collumn,row);
 		std::cout<<std::endl;
 		
@@ -57,13 +72,14 @@ auto settingUpShips(char *argv[], int argvNum, std::string ship, int& collumnInt
 			vec[x][collumnInt+i] = shipField;
 		}
 		
-	} else if(argv[argvNum] || ship[2] == v) {
+	} else if(argv[argvNum] && ship[2] == v) {
 		IsInputValid(collumnInt,x,ship,collumn,row);
 		std::cout<<std::endl;
 		
 		for(int i = 0; i < iValue;++i) {
 			vec[x+i][collumnInt] = shipField;
 		}
+	}
 	}
 
 }

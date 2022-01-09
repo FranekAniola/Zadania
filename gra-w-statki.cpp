@@ -56,6 +56,8 @@ std::vector<std::vector<char>>& vec) -> void {
 	 
 	int var = 0;
 	int var2 = 0;
+	bool isPicked;
+	bool isPicked2;
 	if(iValue <= 1){
 	
 		if(argv[argvNum]) {
@@ -63,7 +65,12 @@ std::vector<std::vector<char>>& vec) -> void {
 			std::cout<<std::endl;
 		
 			for(int i = 0; i < iValue;++i) {
-				vec[x][collumnInt+i] = shipField;
+				if(vec[x][collumnInt+i] == shipField){
+					std::cout<<"you ve alredy picked that place \n";
+					exit(1);
+				}else{
+					vec[x][collumnInt+i] = shipField;
+				}			
 			}
 		
 		}
@@ -82,9 +89,22 @@ std::vector<std::vector<char>>& vec) -> void {
 				}
 			}
 			
-			for(int j = 0; j < iValue;++j) {
-
-				vec[x][collumnInt+j] = shipField;
+			for(int i = 0; i < 4;++i) {
+				
+				isPicked = vec[x][collumnInt+i] == shipField;
+				
+				if(isPicked == true){
+					std::cout<<"you ve alredy picked that place \n";
+					exit(1);
+				}else{
+					break;
+				}
+			}
+			
+			if(isPicked == false){
+				for(int j = 0; j < iValue;++j) {
+					vec[x][collumnInt+j] = shipField;
+				}
 			}
 		
 		} else if(argv[argvNum] && ship[2] == v) {
@@ -94,18 +114,38 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int i = 0; i < 4; ++i){
 				var2++;
 				if(iValue == 1 + var2 &&  x == row[10-var2] ) {
+				
 					std::cout<<"Unforunetly there is no more space left \n";
 					exit(1);
 				}
 			}
 			
 			for(int i = 0; i < iValue;++i) {
-				vec[x+i][collumnInt] = shipField;
+				
+				isPicked = vec[x+i][collumnInt] == shipField;
+				
+				if(isPicked2 == true){
+					std::cout<<"you ve alredy picked that place \n";
+					
+					exit(1);
+				}else{
+					break;
+				}
+			}
+			
+			if(isPicked2 == false) {
+				
+				for(int i = 0; i < iValue;++i) {
+				
+					vec[x+i][collumnInt] = shipField;
+				}
 			}
 		}
 	}
 
 }
+
+
 
 auto main(int argc, char *argv[]) -> int {
 	

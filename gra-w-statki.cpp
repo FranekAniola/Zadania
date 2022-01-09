@@ -4,7 +4,8 @@
 #include <vector>
 
 
-auto IsInputValid(int& collumnInt, int& x,std::string ship, std::vector<char>& collumn, std::vector<int>& row) -> bool {
+auto IsInputValid(int& collumnInt, int& x,std::string ship,
+ std::vector<char>& collumn, std::vector<int>& row) -> bool {
 	char* secondCharacter = &ship[1];
 
 	bool isEqualK = isdigit(ship[1]);
@@ -12,13 +13,13 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship, std::vector<char>& c
 	bool isEqualR = (ship[0] >= 'A') && (ship[0] <= 'J');
 	
 	if(isEqualK && isEqualR) {
-		std::cout<<"\n Correct parameter";
+		std::cout<<" Correct parameter";
 		x = atoi(secondCharacter);
 	} else {
 		std::cout<<"Wrong parameter";
 	}
 	
-	for(int i = 0; i <collumn.size(); ++i) {
+	for(int i = 0; i < collumn.size(); ++i) {
 		if(ship[0] == collumn[i]) {
 			collumnInt = i;
 			break;
@@ -29,7 +30,8 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship, std::vector<char>& c
 }
 
 
-auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row, std::vector<std::vector<char>>& vec) -> void {
+auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
+ std::vector<std::vector<char>>& vec) -> void {
 	
 	for(int i = 0;i < row.size();++i) {
 		std::cout<< "  " << collumn[i] << " "; 
@@ -47,8 +49,13 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row, std::vector<s
 	}
 }
 
-auto settingUpShips(char *argv[], int argvNum, std::string ship, int& collumnInt, int& x, std::vector<char>& collumn, std::vector<int>& row, char shipField, int iValue, char v, char h,std::vector<std::vector<char>>& vec) -> void{ 
-	
+auto settingUpShips(char *argv[], int argvNum, std::string ship, 
+int& collumnInt, int& x, std::vector<char>& collumn, std::vector<int>& row, 
+char shipField, int iValue, char v, char h,
+std::vector<std::vector<char>>& vec) -> void {
+	 
+	int var = 0;
+	int var2 = 0;
 	if(iValue <= 1){
 	
 		if(argv[argvNum]) {
@@ -61,25 +68,41 @@ auto settingUpShips(char *argv[], int argvNum, std::string ship, int& collumnInt
 		
 		}
 
-	}else{
+	} else {
 	
-	
-	if(argv[argvNum] && ship[2] == h) {
-		IsInputValid(collumnInt,x,ship,collumn,row);
-		std::cout<<std::endl;
+		if(argv[argvNum] && ship[2] == h) {
+			IsInputValid(collumnInt,x,ship,collumn,row);
+			std::cout<<std::endl;
+			
+			for(int j = 0; j < 4; ++j) {
+				var++;
+				if(iValue == 1 + var && collumnInt == 10 - var) {
+					std::cout<<"Unforunetly there is no more space left \n";
+					exit(1);	
+				}
+			}
+			
+			for(int j = 0; j < iValue;++j) {
+
+				vec[x][collumnInt+j] = shipField;
+			}
 		
-		for(int i = 0; i < iValue;++i) {
-			vec[x][collumnInt+i] = shipField;
+		} else if(argv[argvNum] && ship[2] == v) {
+			IsInputValid(collumnInt,x,ship,collumn,row);
+			std::cout<<std::endl;
+			
+			for(int i = 0; i < 4; ++i){
+				var2++;
+				if(iValue == 1 + var2 &&  x == row[10-var2] ) {
+					std::cout<<"Unforunetly there is no more space left \n";
+					exit(1);
+				}
+			}
+			
+			for(int i = 0; i < iValue;++i) {
+				vec[x+i][collumnInt] = shipField;
+			}
 		}
-		
-	} else if(argv[argvNum] && ship[2] == v) {
-		IsInputValid(collumnInt,x,ship,collumn,row);
-		std::cout<<std::endl;
-		
-		for(int i = 0; i < iValue;++i) {
-			vec[x+i][collumnInt] = shipField;
-		}
-	}
 	}
 
 }

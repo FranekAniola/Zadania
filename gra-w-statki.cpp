@@ -13,7 +13,7 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship,
 	bool isEqualR = (ship[0] >= 'A') && (ship[0] <= 'J');
 	
 	if(isEqualK && isEqualR) {
-		std::cout<<" Correct parameter";
+	//	std::cout<<" Correct parameter";
 		x = atoi(secondCharacter);
 	} else {
 		std::cout<<" Wrong parameter";
@@ -127,10 +127,6 @@ std::vector<std::vector<char>>& vec) -> void {
 					isNoSpace4 = true;
 					}
 					
-					//isNoSpace5 = vec[x-1][collumnInt-1] != shipField;
-					//isNoSpace6 = vec[x-1][collumnInt+1] != shipField;
-					//isNoSpace7 = vec[x+1][collumnInt+1] != shipField;
-					//isNoSpace8 = vec[x+1][collumnInt-1] != shipField;
 					
 					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 							vec[x][collumnInt+i] = shipField;
@@ -190,7 +186,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			
 			for(int i = 0; i < iValue;++i) {
 				
-				isPicked = vec[x+i][collumnInt] == shipField;
+				isPicked2 = vec[x+i][collumnInt] == shipField;
 				
 				if(isPicked2 == true) {
 					std::cout<<"you ve alredy picked that place \n";

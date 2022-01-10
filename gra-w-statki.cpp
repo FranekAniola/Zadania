@@ -62,6 +62,11 @@ std::vector<std::vector<char>>& vec) -> void {
 	bool isNoSpace2;
 	bool isNoSpace3;
 	bool isNoSpace4;
+	bool isNoSpace5;
+	bool isNoSpace6;
+	bool isNoSpace7;
+	bool isNoSpace8;
+	
 	
 	if(iValue <= 1) {
 		if(argv[argvNum]) {
@@ -80,18 +85,40 @@ std::vector<std::vector<char>>& vec) -> void {
 					isNoSpace = true;
 					}
 					
+					if(collumnInt != 9 && x != 9){
+						isNoSpace7 = vec[x+1][collumnInt+1] != shipField;
+					}else{
+						isNoSpace7 = true;
+					}
+					
+					if(collumnInt != 9 && x != 0){
+						isNoSpace6 = vec[x-1][collumnInt+1] != shipField;
+					}else{
+						isNoSpace6 = true;
+					}
+					
+					if(collumnInt != 0 && x != 9){
+						isNoSpace8 = vec[x+1][collumnInt-1] != shipField;
+					}else{
+						isNoSpace8 = true;
+					}
+					
+					if(collumnInt != 0 && x != 0){
+						isNoSpace5 = vec[x-1][collumnInt-1] != shipField;
+					}else{
+						isNoSpace5 = true;
+					}
+					
 					if(collumnInt != 0) {
 						isNoSpace2 = vec[x][collumnInt-1] != shipField;
 					} else {
 					isNoSpace2 = true;
 					}
 					
-					isNoSpace2 = vec[x][collumnInt-1] != shipField;
-					
 					if(x != 9) {
 						isNoSpace3 = vec[x+1][collumnInt] != shipField;
 					}else{
-					isNoSpace3 = true;
+						isNoSpace3 = true;
 					}
 					
 					if(x != 0) {
@@ -100,9 +127,12 @@ std::vector<std::vector<char>>& vec) -> void {
 					isNoSpace4 = true;
 					}
 					
-					isNoSpace4 = vec[x-1][collumnInt] != shipField;
+					//isNoSpace5 = vec[x-1][collumnInt-1] != shipField;
+					//isNoSpace6 = vec[x-1][collumnInt+1] != shipField;
+					//isNoSpace7 = vec[x+1][collumnInt+1] != shipField;
+					//isNoSpace8 = vec[x+1][collumnInt-1] != shipField;
 					
-					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4) {
+					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 							vec[x][collumnInt+i] = shipField;
 					} else {
 					std::cout<<"there has to be one space between ships!\n";
@@ -113,6 +143,7 @@ std::vector<std::vector<char>>& vec) -> void {
 		}
 
 	} else {
+		//multi masted ships
 	
 		if(argv[argvNum] && ship[2] == h) {
 			IsInputValid(collumnInt,x,ship,collumn,row);

@@ -135,7 +135,12 @@ std::vector<std::vector<char>>& vec) -> void {
 					
 					
 					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
-							vec[x][collumnInt+i] = shipField;
+						if(vec[x][collumnInt+i] == shipField) {
+							std::cout<<"This place is occupated by other ship\n";
+							exit(1);	
+						} else {
+						vec[x][collumnInt+i] = shipField;
+						}
 					} else {
 					std::cout<<"There has to be at least on space between ships \n";
 					exit(1);
@@ -152,7 +157,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int j = 0; j < 4; ++j) {
 				var++;
 				if(iValue == 1 + var && collumnInt == 10 - var) {
-					std::cout<<"There has to be at least on space between ships  \n";
+					std::cout<<"Ship is outside of the board\n";
 					exit(1);	
 				}
 			} 
@@ -175,7 +180,7 @@ std::vector<std::vector<char>>& vec) -> void {
 				var2++;
 				if(iValue == 1 + var2 &&  x == row[10-var2] ) {
 				
-					std::cout<<"There has to be at least on space between ships \n";
+					std::cout<<"Ship is outside of the board\n";
 					exit(1);
 				}
 			}

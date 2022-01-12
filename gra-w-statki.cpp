@@ -185,14 +185,39 @@ std::vector<std::vector<char>>& vec) -> void {
 					}
 					
 					
-					if(j == iValue -1 && collumnInt != 9) {	
+					if(j == iValue - 1 && collumnInt != 9) {	
 						isNoSpace4 = vec[x][collumnInt + iValue + 1] != shipField;
 					} else {
 						isNoSpace4 = true;
 					}
 					
 					
-					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4) {
+					if(j == 0 && x != 0 && collumnInt != 0) {
+						isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
+					} else {
+						isNoSpace5 = true;
+					}
+					
+					if(j == 0 && x != 9 && collumnInt != 0) {
+						isNoSpace6 = vec[x + 1][collumnInt - 1] != shipField;
+					} else {
+						isNoSpace6 = true;
+					}
+					
+					if(j == iValue - 1 && x != 0 && collumnInt != 9){
+						isNoSpace7 = vec[x - 1][collumnInt + iValue + 1] != shipField;
+					} else {
+						isNoSpace7 = true;
+					}
+					
+					if(j == iValue - 1 && x != 0 && collumnInt != 9){
+						isNoSpace8 = vec[x + 1][collumnInt + iValue ] != shipField;
+					} else {
+						isNoSpace8 = true;
+					}
+					
+					
+					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 					
 						vec[x][collumnInt+j] = shipField;
 						
@@ -255,9 +280,34 @@ std::vector<std::vector<char>>& vec) -> void {
 				} else {
 					isNoSpace4 = true;
 				}
+				////
+									
+				if(i == 0 && x != 0 && collumnInt != 0) {
+					isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
+				} else {
+						isNoSpace5 = true;
+				}
+					
+				if(i == iValue - 1 && x != 9 && collumnInt != 0) {
+					isNoSpace6 = vec[x + iValue][collumnInt - 1] != shipField;
+				} else {
+						isNoSpace6 = true;
+				}
+					
+				if(i == 0  && x != 0 && collumnInt != 9){
+						isNoSpace7 = vec[x + 1][collumnInt + 1] != shipField;
+				} else {
+						isNoSpace7 = true;
+				}
+					
+				if(i == iValue - 1 && x != 9 && collumnInt != 9){
+					isNoSpace8 = vec[x + iValue][collumnInt + 1] != shipField;
+				} else {
+					isNoSpace8 = true;
+				}
+					
 				
-				
-				if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4){
+				if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 						vec[x+i][collumnInt] = shipField;
 				} else {
 					std::cout<< "There has to be at least on space between ships \n";

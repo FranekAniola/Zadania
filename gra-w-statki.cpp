@@ -152,7 +152,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int j = 0; j < 4; ++j) {
 				var++;
 				if(iValue == 1 + var && collumnInt == 10 - var) {
-					std::cout<< "Ship is outside of the board\n";
+					std::cout<< "The ship is outside of the board\n";
 					exit(1);	
 				}
 			} 
@@ -160,18 +160,18 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int j = 0; j < iValue; ++j) {
 			
 				if(vec[x][collumnInt+j] == shipField) {
-					std::cout<< "This place is occupated by other ship\n";
+					std::cout<< "This place is alredy occupated by other ship\n";
 					exit(1);
 				} else {
 					
-					if(x != 0) {	
+					if(x != 9) {	
 						isNoSpace = vec[x+1][collumnInt+j] != shipField;
 					} else {
 						isNoSpace = true;
 					}
 					
 					
-					if(x != 9) {	
+					if(x != 0) {	
 						isNoSpace2 = vec[x-1][collumnInt+j] != shipField;
 					} else {
 						isNoSpace2 = true;
@@ -186,7 +186,7 @@ std::vector<std::vector<char>>& vec) -> void {
 					
 					
 					if(j == iValue - 1 && collumnInt != 9) {	
-						isNoSpace4 = vec[x][collumnInt + iValue + 1] != shipField;
+						isNoSpace4 = vec[x][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace4 = true;
 					}
@@ -205,13 +205,13 @@ std::vector<std::vector<char>>& vec) -> void {
 					}
 					
 					if(j == iValue - 1 && x != 0 && collumnInt != 9){
-						isNoSpace7 = vec[x - 1][collumnInt + iValue + 1] != shipField;
+						isNoSpace7 = vec[x - 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace7 = true;
 					}
 					
-					if(j == iValue - 1 && x != 0 && collumnInt != 9){
-						isNoSpace8 = vec[x + 1][collumnInt + iValue ] != shipField;
+					if(j == iValue - 1 && x != 9 && collumnInt != 9){
+						isNoSpace8 = vec[x + 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace8 = true;
 					}
@@ -239,7 +239,7 @@ std::vector<std::vector<char>>& vec) -> void {
 				var2++;
 				if(iValue == 1 + var2 &&  x == row[10-var2] ) {
 				
-					std::cout<< "Ship is outside of the board\n";
+					std::cout<< "The ship is outside of the board\n";
 					exit(1);
 				}
 			}
@@ -248,7 +248,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int i = 0; i < iValue;++i) {
 				if(vec[x+i][collumnInt] == shipField)
 				{
-					std::cout<< "This place is occupated by other ship\n";
+					std::cout<< "This place is alredy occupated by other ship\n";
 					exit(1);
 				}
 				
@@ -262,7 +262,6 @@ std::vector<std::vector<char>>& vec) -> void {
 					
 				if(collumnInt != 9) {	
 					isNoSpace2 = vec[x + i][collumnInt+1] != shipField;
-
 				} else {
 					isNoSpace2 = true;
 				}
@@ -289,19 +288,19 @@ std::vector<std::vector<char>>& vec) -> void {
 				}
 					
 				if(i == iValue - 1 && x != 9 && collumnInt != 0) {
-					isNoSpace6 = vec[x + iValue][collumnInt - 1] != shipField;
+					isNoSpace6 = vec[x + iValue + 1][collumnInt - 1] != shipField;
 				} else {
 						isNoSpace6 = true;
 				}
 					
 				if(i == 0  && x != 0 && collumnInt != 9){
-						isNoSpace7 = vec[x + 1][collumnInt + 1] != shipField;
+						isNoSpace7 = vec[x - 1][collumnInt + 1] != shipField;
 				} else {
 						isNoSpace7 = true;
 				}
 					
 				if(i == iValue - 1 && x != 9 && collumnInt != 9){
-					isNoSpace8 = vec[x + iValue][collumnInt + 1] != shipField;
+					isNoSpace8 = vec[x + iValue + 1][collumnInt + 1] != shipField;
 				} else {
 					isNoSpace8 = true;
 				}

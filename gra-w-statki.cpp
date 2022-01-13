@@ -50,6 +50,9 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
 	}
 }
 
+
+
+
 auto settingUpShips(char *argv[], int argvNum, std::string ship, 
 int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row, 
 char shipField, int iValue, char v, char h,
@@ -161,29 +164,29 @@ std::vector<std::vector<char>>& vec) -> void {
 					std::cout<< "This field is alredy occupated by other ship\n";
 					exit(1);
 				} else {
-					
+					//sprawdza dół
 					if(x < 9) {	
 						isNoSpace = vec[x+1][collumnInt+j] != shipField;
 					} else {
 						isNoSpace = true;
 					}
 					
-					
+					//sprwadza górę
 					if(x > 0) {	
 						isNoSpace2 = vec[x-1][collumnInt+j] != shipField;
 					} else {
 						isNoSpace2 = true;
 					}
 					
-					
+					//sprawdza lewe pole
 					if(j == 0 && collumnInt > 0) {	
 						isNoSpace3 = vec[x][collumnInt-1] != shipField;
 					} else {
 							isNoSpace3 = true;
 					}
 					
-					
-					if(j == iValue - 1 && collumnInt < 9 && collumnInt > 10 - iValue ) {
+					// sprawdza prawe pole
+					if(j == iValue - 1 && collumnInt < 9 && collumnInt < 10 - iValue ) {
 						if (collumnInt + iValue >= 10) {
                             std::cout << "ERROR: Out of vector scope" << std::endl;
                         }
@@ -193,30 +196,30 @@ std::vector<std::vector<char>>& vec) -> void {
 						isNoSpace4 = true;
 					}
 					 
-					
+					//sprawdza lewą górę
 					if(j == 0 && x > 0 && collumnInt > 0) {
 						isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
 					} else {
 						isNoSpace5 = true;
 					}
 					
+					// sprawdza lewy dół
 					if(j == 0 && x < 9 && collumnInt > 0) {
 						isNoSpace6 = vec[x + 1][collumnInt - 1] != shipField;
 					} else {
 						isNoSpace6 = true;
 					}
 					
-					if(j == iValue - 1 && x > 0 && collumnInt < 9) {
+					//sprawdza prawą górę
+					if(j == iValue - 1 && x > 0 && collumnInt < 9 && collumnInt < 10 - iValue) {
 						isNoSpace7 = vec[x - 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace7 = true;
 					}
 					
-					if(j == iValue - 1 && x < 9 && collumnInt < 9 && collumnInt > 10 - iValue ) {
-						if (collumnInt + iValue >= 10) {
-                            std::cout << "ERROR: Out of vector scope" << std::endl;
-                        }
-                        
+					//sprawdza prawy dół
+					if(j == iValue - 1 && x < 9 && collumnInt < 9 && collumnInt < 10 - iValue ) {
+						
 						isNoSpace8 = vec[x + 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace8 = true;
@@ -254,50 +257,50 @@ std::vector<std::vector<char>>& vec) -> void {
 				
 			}
 			
-
+			
 			for(int i = 0; i < iValue;++i) {
 				if(vec[x+i][collumnInt] == shipField)
 				{
 					std::cout<< "This field is alredy occupated by other ship\n";
 					exit(1);
 				}
-				
+				//Sprawdza pole po lewej stronie
 				if(collumnInt > 0) {	
 					isNoSpace = vec[x + i][collumnInt-1] != shipField;
 				} else {
 					isNoSpace = true;
 				}
 				
-					
+				//sprawdza pole po prawej stronie
 				if(collumnInt < 9) {	
 					isNoSpace2 = vec[x + i][collumnInt+1] != shipField;
 				} else {
 					isNoSpace2 = true;
 				}
 				
-				
+				//sprawdza początkowy górne pole 
 				if(i == 0 && x > 0) {	
 					isNoSpace3 = vec[x - 1][collumnInt] != shipField;
 				} else {
 					isNoSpace3 = true;
 				}
 				
-				
-				if(i == iValue - 1 && x < 9 && x > 10 - iValue && x > 10 - iValue && collumnInt > 10 - iValue) {	
+				//sprawdza dolne pole 
+				if(i == iValue - 1 && x < 9 && x < 10 - iValue) {	
 					isNoSpace4 = vec[x + iValue][collumnInt] != shipField;
 				} else {
 					isNoSpace4 = true;
 				}
 				
-									
+				//sprawdza górne lewe pole 			
 				if(i == 0 && x > 0 && collumnInt > 0) {
 					isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
 				} else {
 						isNoSpace5 = true;
 				}
 				
-				
-				if(i == iValue - 1 && x < 9 && collumnInt > 0 && x > 10 - iValue && collumnInt > 10 - iValue) {
+				//sprawdza dolne lewe pole
+				if(i == iValue - 1 && x < 9 && collumnInt > 0 && x < 10 - iValue) {
 					isNoSpace6 = vec[x + iValue][collumnInt - 1] != shipField;
 						if (x + iValue >= 10) {
                           std::cout << "ERROR: Out of vector scope" << std::endl;
@@ -306,14 +309,15 @@ std::vector<std::vector<char>>& vec) -> void {
 						isNoSpace6 = true;
 				}
 				
+				// srpawdza górne prawe pole
 				if(i == 0  && x > 0 && collumnInt < 9) {
 					isNoSpace7 = vec[x - 1][collumnInt + 1] != shipField;
 				} else {
 					isNoSpace7 = true;
 				}
 				
-				
-				if(i == iValue - 1 && x < 9 && collumnInt < 9 && x > 10 - iValue && collumnInt > 10 - iValue) {
+				//sprawdza dolne prawe pole
+				if(i == iValue - 1 && x < 9 && collumnInt < 9 && x < 10 - iValue) {
 					isNoSpace8 = vec[x + iValue][collumnInt + 1] != shipField;
 				} else {
 					isNoSpace8 = true;

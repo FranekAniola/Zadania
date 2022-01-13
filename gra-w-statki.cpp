@@ -55,9 +55,6 @@ int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row,
 char shipField, int iValue, char v, char h,
 std::vector<std::vector<char>>& vec) -> void {
 	 
-	int var = 0;
-	int var2 = 0;
-	int var3 = 0;
 	
 	bool isNoSpace;
 	bool isNoSpace2;
@@ -151,11 +148,11 @@ std::vector<std::vector<char>>& vec) -> void {
 			
 			for(int j = 0; j < 4; ++j) {
 				
-				if(iValue == 4 - var && collumnInt <= 9 && collumnInt >= (7 + j)) {
+				if(iValue == 4 - j && collumnInt <= 9 && collumnInt >= (7 + j)) {
 					std::cout<< "The ship is outside of the board\n";
 					exit(1);	
 				}
-				var++;
+				
 			}
 			
 			for(int j = 0; j < iValue; ++j) {
@@ -238,12 +235,12 @@ std::vector<std::vector<char>>& vec) -> void {
 			
 			for(int i = 0; i < 4; ++i) {
 				
-				if(iValue == 4 - var2 &&  x <= 9 && x >= 7 + i ) {
+				if(iValue == 4 - i &&  x <= 9 && x >= 7 + i ) {
 				
 					std::cout<< "The ship is outside of the board\n";
 					exit(1);
 				}
-				var2++;
+				
 			}
 			
 

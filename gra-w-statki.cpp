@@ -75,49 +75,49 @@ std::vector<std::vector<char>>& vec) -> void {
 		
 			for(int i = 0; i < iValue;++i) {
 					
-					if(collumnInt != 9) {
+					if(collumnInt < 9) {
 						isNoSpace = vec[x][collumnInt+1] != shipField;
 					} else {
 					isNoSpace = true;
 					}
 					
-					if(collumnInt != 9 && x != 9) {
+					if(collumnInt < 9 && x < 9) {
 						isNoSpace7 = vec[x+1][collumnInt+1] != shipField;
 					} else {
 						isNoSpace7 = true;
 					}
 					
-					if(collumnInt != 9 && x != 0) {
+					if(collumnInt < 9 && x > 0) {
 						isNoSpace6 = vec[x-1][collumnInt+1] != shipField;
 					} else {
 						isNoSpace6 = true;
 					}
 					
-					if(collumnInt != 0 && x != 9) {
+					if(collumnInt > 0 && x < 9) {
 						isNoSpace8 = vec[x+1][collumnInt-1] != shipField;
 					} else {
 						isNoSpace8 = true;
 					}
 					
-					if(collumnInt != 0 && x != 0) {
+					if(collumnInt > 0 && x > 0) {
 						isNoSpace5 = vec[x-1][collumnInt-1] != shipField;
 					} else {
 						isNoSpace5 = true;
 					}
 					
-					if(collumnInt != 0) {
+					if(collumnInt > 0) {
 						isNoSpace2 = vec[x][collumnInt-1] != shipField;
 					} else {
 						isNoSpace2 = true;
 					}
 					
-					if(x != 9) {
+					if(x < 9) {
 						isNoSpace3 = vec[x+1][collumnInt] != shipField;
 					} else { 
 						isNoSpace3 = true;
 					}
 					
-					if(x != 0) {
+					if(x > 0) {
 						isNoSpace4 = vec[x-1][collumnInt] != shipField;
 					} else {
 						isNoSpace4 = true;
@@ -162,53 +162,61 @@ std::vector<std::vector<char>>& vec) -> void {
 					exit(1);
 				} else {
 					
-					if(x != 9) {	
+					if(x < 9) {	
 						isNoSpace = vec[x+1][collumnInt+j] != shipField;
 					} else {
 						isNoSpace = true;
 					}
 					
 					
-					if(x != 0) {	
+					if(x > 0) {	
 						isNoSpace2 = vec[x-1][collumnInt+j] != shipField;
 					} else {
 						isNoSpace2 = true;
 					}
 					
 					
-					if(j == 0 && collumnInt != 0) {	
+					if(j == 0 && collumnInt > 0) {	
 						isNoSpace3 = vec[x][collumnInt-1] != shipField;
 					} else {
 							isNoSpace3 = true;
 					}
 					
 					
-					if(j == iValue - 1 && collumnInt != 9) {	
+					if(j == iValue - 1 && collumnInt < 9 && collumnInt > 10 - iValue ) {
+						if (collumnInt + iValue >= 10) {
+                            std::cout << "ERROR: Out of vector scope" << std::endl;
+                        }
+							
 						isNoSpace4 = vec[x][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace4 = true;
 					}
+					 
 					
-					
-					if(j == 0 && x != 0 && collumnInt != 0) {
+					if(j == 0 && x > 0 && collumnInt > 0) {
 						isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
 					} else {
 						isNoSpace5 = true;
 					}
 					
-					if(j == 0 && x != 9 && collumnInt != 0) {
+					if(j == 0 && x < 9 && collumnInt > 0) {
 						isNoSpace6 = vec[x + 1][collumnInt - 1] != shipField;
 					} else {
 						isNoSpace6 = true;
 					}
 					
-					if(j == iValue - 1 && x != 0 && collumnInt != 9) {
+					if(j == iValue - 1 && x > 0 && collumnInt < 9) {
 						isNoSpace7 = vec[x - 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace7 = true;
 					}
 					
-					if(j == iValue - 1 && x != 9 && collumnInt != 9) {
+					if(j == iValue - 1 && x < 9 && collumnInt < 9 && collumnInt > 10 - iValue ) {
+						if (collumnInt + iValue >= 10) {
+                            std::cout << "ERROR: Out of vector scope" << std::endl;
+                        }
+                        
 						isNoSpace8 = vec[x + 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace8 = true;
@@ -254,56 +262,58 @@ std::vector<std::vector<char>>& vec) -> void {
 					exit(1);
 				}
 				
-				if(collumnInt != 0) {	
+				if(collumnInt > 0) {	
 					isNoSpace = vec[x + i][collumnInt-1] != shipField;
 				} else {
 					isNoSpace = true;
 				}
 				
-				
 					
-				if(collumnInt != 9) {	
+				if(collumnInt < 9) {	
 					isNoSpace2 = vec[x + i][collumnInt+1] != shipField;
 				} else {
 					isNoSpace2 = true;
 				}
 				
-				//working
-				if(i == 0 && x != 0) {	
+				
+				if(i == 0 && x > 0) {	
 					isNoSpace3 = vec[x - 1][collumnInt] != shipField;
 				} else {
 					isNoSpace3 = true;
 				}
 				
-				//working
-				if(i == iValue - 1 && x != 9) {	
+				
+				if(i == iValue - 1 && x < 9 && x > 10 - iValue && x > 10 - iValue && collumnInt > 10 - iValue) {	
 					isNoSpace4 = vec[x + iValue][collumnInt] != shipField;
 				} else {
 					isNoSpace4 = true;
 				}
 				
-				//working					
-				if(i == 0 && x != 0 && collumnInt != 0) {
+									
+				if(i == 0 && x > 0 && collumnInt > 0) {
 					isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
 				} else {
 						isNoSpace5 = true;
 				}
 				
-				//working
-				if(i == iValue - 1 && x != 9 && collumnInt != 0) {
+				
+				if(i == iValue - 1 && x < 9 && collumnInt > 0 && x > 10 - iValue && collumnInt > 10 - iValue) {
 					isNoSpace6 = vec[x + iValue][collumnInt - 1] != shipField;
+						if (x + iValue >= 10) {
+                          std::cout << "ERROR: Out of vector scope" << std::endl;
+                        }
 				} else {
 						isNoSpace6 = true;
 				}
-				//working
-				if(i == 0  && x != 0 && collumnInt != 9) {
-						isNoSpace7 = vec[x - 1][collumnInt + 1] != shipField;
+				
+				if(i == 0  && x > 0 && collumnInt < 9) {
+					isNoSpace7 = vec[x - 1][collumnInt + 1] != shipField;
 				} else {
-						isNoSpace7 = true;
+					isNoSpace7 = true;
 				}
 				
-				//working
-				if(i == iValue - 1 && x != 9 && collumnInt != 9) {
+				
+				if(i == iValue - 1 && x < 9 && collumnInt < 9 && x > 10 - iValue && collumnInt > 10 - iValue) {
 					isNoSpace8 = vec[x + iValue][collumnInt + 1] != shipField;
 				} else {
 					isNoSpace8 = true;

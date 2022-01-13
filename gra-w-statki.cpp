@@ -7,19 +7,20 @@
 auto IsInputValid(int& collumnInt, int& x,std::string ship,
  std::vector<char>& collumn, std::vector<int>& row) -> bool {
 	char* secondCharacter = &ship[1];
-
+	
+	//sprawdzanie czy drugi znak stringa jest cyfrą od 0 do 9
 	bool isEqualK = isdigit(ship[1]);
 	
 	bool isEqualR = (ship[0] >= 'A') && (ship[0] <= 'J');
 	
 	if(isEqualK && isEqualR) {
-	//std::cout<<" Correct parameter";
+	//przypisanie do x drugiego znaku stringa który ma być użyty jako oznaczenie wiersza
 		x = atoi(secondCharacter);
 	} else {
 		std::cout<< "Wrong parameter";
 		exit(1);
 	}
-		
+		//integerowa reprezentacja kolumny 
 	for(int i = 0; i < collumn.size(); ++i) {
 		if(ship[0] == collumn[i]) {
 			collumnInt = i;
@@ -30,7 +31,7 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship,
 	return isEqualK && isEqualR;
 }
 
-
+//Print tablicy dwu wymiarowej
 auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
  std::vector<std::vector<char>>& vec) -> void {
 	
@@ -51,7 +52,7 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
 }
 
 
-
+//ustawianie statków, sprawdzenie czy statki na siebie nie nachodzą oraz sprawdzenie czy dookoła statku jest przynajmniej jedno wolne miejsce 
 
 auto settingUpShips(char *argv[], int argvNum, std::string ship, 
 int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row, 
@@ -70,6 +71,7 @@ std::vector<std::vector<char>>& vec) -> void {
 	
 	bool isOcupated;
 	
+	//iValue <=1 odnosi się do jednomasztowych statków
 	
 	if(iValue <= 1) {
 		if(argv[argvNum]) {
@@ -77,49 +79,49 @@ std::vector<std::vector<char>>& vec) -> void {
 			std::cout<<std::endl;
 		
 			for(int i = 0; i < iValue;++i) {
-					
+					//sprwadzenie prawej strony  
 					if(collumnInt < 9) {
 						isNoSpace = vec[x][collumnInt+1] != shipField;
 					} else {
 					isNoSpace = true;
 					}
-					
+					//sprwadzenie dolnej prawej strony
 					if(collumnInt < 9 && x < 9) {
 						isNoSpace7 = vec[x+1][collumnInt+1] != shipField;
 					} else {
 						isNoSpace7 = true;
 					}
-					
+					//sprwadzenie górnej prawej strony 
 					if(collumnInt < 9 && x > 0) {
 						isNoSpace6 = vec[x-1][collumnInt+1] != shipField;
 					} else {
 						isNoSpace6 = true;
 					}
-					
+					//sprwadzenie dolnej lewej strony
 					if(collumnInt > 0 && x < 9) {
 						isNoSpace8 = vec[x+1][collumnInt-1] != shipField;
 					} else {
 						isNoSpace8 = true;
 					}
-					
+					//sprwadzenie górnej lewej strony
 					if(collumnInt > 0 && x > 0) {
 						isNoSpace5 = vec[x-1][collumnInt-1] != shipField;
 					} else {
 						isNoSpace5 = true;
 					}
-					
+					//sprwadzenie lewej strony 
 					if(collumnInt > 0) {
 						isNoSpace2 = vec[x][collumnInt-1] != shipField;
 					} else {
 						isNoSpace2 = true;
 					}
-					
+					//sprwadzenie górnej strony
 					if(x < 9) {
 						isNoSpace3 = vec[x+1][collumnInt] != shipField;
 					} else { 
 						isNoSpace3 = true;
 					}
-					
+					//sprwadzenie dolnej strony
 					if(x > 0) {
 						isNoSpace4 = vec[x-1][collumnInt] != shipField;
 					} else {
@@ -187,6 +189,7 @@ std::vector<std::vector<char>>& vec) -> void {
 					
 					// sprawdza prawe pole
 					if(j == iValue - 1 && collumnInt < 9 && collumnInt < 10 - iValue ) {
+						//debugowanie
 						if (collumnInt + iValue >= 10) {
                             std::cout << "ERROR: Out of vector scope" << std::endl;
                         }
@@ -329,7 +332,7 @@ std::vector<std::vector<char>>& vec) -> void {
 				isNoSpace5 && isNoSpace6 && 
 				isNoSpace7 && isNoSpace8) {
 					
-						vec[x+i][collumnInt] = shipField;
+					vec[x+i][collumnInt] = shipField;
 				} else {
 					std::cout<< "There has to be at least on space between ships \n";
 					exit(1);
@@ -368,7 +371,10 @@ auto main(int argc, char *argv[]) -> int {
 	char v = 'v';
 	char h = 'h';
 	char shipField = 'x';
-
+	
+	
+	//zamiana char argv na stringa 
+	
 	std::string firstShip = std::string(argv[1]);
 	std::string secondShip = std::string(argv[2]);
 	std::string thirdShip = std::string(argv[3]);
@@ -390,6 +396,17 @@ auto main(int argc, char *argv[]) -> int {
 	settingUpShips(argv,8,eightShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
 	settingUpShips(argv,9,ninethShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
 	settingUpShips(argv,10,tenthShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	
+	/*
+	auto funkcja(char* argv[], std::string ship, int collumnInt, int x, std::vector<char> collumn,
+	 std::vector<int> row, char shipField, char v, char h, std::vector<std::vector<char>>& vec)->void{
+		
+		for(int i = 1; i <= 10;++i){
+			if
+			settingUpShips(argv,i,firstShip, collumnInt, x, collumn, row, shipField, 4, v,h,vec);
+		}
+	}
+	 */
 
 	PrintBoard(collumn, row, vec);
 	

@@ -126,7 +126,7 @@ std::vector<std::vector<char>>& vec) -> void {
 					
 					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 						if(vec[x][collumnInt+i] == shipField) {
-							std::cout<< "This place is occupated by other ship\n";
+							std::cout<< "This field is occupated by other ship\n";
 							exit(1);	
 						} else {
 							vec[x][collumnInt+i] = shipField;
@@ -158,7 +158,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int j = 0; j < iValue; ++j) {
 			
 				if(vec[x][collumnInt+j] == shipField) {
-					std::cout<< "This place is alredy occupated by other ship\n";
+					std::cout<< "This field is alredy occupated by other ship\n";
 					exit(1);
 				} else {
 					
@@ -215,7 +215,10 @@ std::vector<std::vector<char>>& vec) -> void {
 					}
 					
 					
-					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
+					if(isNoSpace && isNoSpace2 &&
+					 isNoSpace3 && isNoSpace4 && 
+					 isNoSpace5 && isNoSpace6 &&
+					 isNoSpace7 && isNoSpace8) {
 					
 						vec[x][collumnInt+j] = shipField;
 						
@@ -247,7 +250,7 @@ std::vector<std::vector<char>>& vec) -> void {
 			for(int i = 0; i < iValue;++i) {
 				if(vec[x+i][collumnInt] == shipField)
 				{
-					std::cout<< "This place is alredy occupated by other ship\n";
+					std::cout<< "This field is alredy occupated by other ship\n";
 					exit(1);
 				}
 				
@@ -307,7 +310,11 @@ std::vector<std::vector<char>>& vec) -> void {
 				}
 				
 				
-				if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
+				if(isNoSpace && isNoSpace2 && 
+				isNoSpace3 && isNoSpace4 && 
+				isNoSpace5 && isNoSpace6 && 
+				isNoSpace7 && isNoSpace8) {
+					
 						vec[x+i][collumnInt] = shipField;
 				} else {
 					std::cout<< "There has to be at least on space between ships \n";

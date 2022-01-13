@@ -150,12 +150,13 @@ std::vector<std::vector<char>>& vec) -> void {
 			std::cout<<std::endl;
 			
 			for(int j = 0; j < 4; ++j) {
-				var++;
-				if(iValue == 1 + var && collumnInt == 10 - var) {
+				
+				if(iValue == 4 - var && collumnInt <= 9 && collumnInt >= (7 + j)) {
 					std::cout<< "The ship is outside of the board\n";
 					exit(1);	
 				}
-			} 
+				var++;
+			}
 			
 			for(int j = 0; j < iValue; ++j) {
 			
@@ -204,13 +205,13 @@ std::vector<std::vector<char>>& vec) -> void {
 						isNoSpace6 = true;
 					}
 					
-					if(j == iValue - 1 && x != 0 && collumnInt != 9){
+					if(j == iValue - 1 && x != 0 && collumnInt != 9) {
 						isNoSpace7 = vec[x - 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace7 = true;
 					}
 					
-					if(j == iValue - 1 && x != 9 && collumnInt != 9){
+					if(j == iValue - 1 && x != 9 && collumnInt != 9) {
 						isNoSpace8 = vec[x + 1][collumnInt + iValue] != shipField;
 					} else {
 						isNoSpace8 = true;
@@ -236,12 +237,13 @@ std::vector<std::vector<char>>& vec) -> void {
 			std::cout<<std::endl;
 			
 			for(int i = 0; i < 4; ++i) {
-				var2++;
-				if(iValue == 1 + var2 &&  x == row[10-var2] ) {
+				
+				if(iValue == 4 - var2 &&  x <= 9 && x >= 7 + i ) {
 				
 					std::cout<< "The ship is outside of the board\n";
 					exit(1);
 				}
+				var2++;
 			}
 			
 
@@ -266,45 +268,47 @@ std::vector<std::vector<char>>& vec) -> void {
 					isNoSpace2 = true;
 				}
 				
-				
+				//working
 				if(i == 0 && x != 0) {	
 					isNoSpace3 = vec[x - 1][collumnInt] != shipField;
 				} else {
 					isNoSpace3 = true;
 				}
 				
-				
+				//working
 				if(i == iValue - 1 && x != 9) {	
 					isNoSpace4 = vec[x + iValue][collumnInt] != shipField;
 				} else {
 					isNoSpace4 = true;
 				}
-				////
-									
+				
+				//working					
 				if(i == 0 && x != 0 && collumnInt != 0) {
 					isNoSpace5 = vec[x - 1][collumnInt - 1] != shipField;
 				} else {
 						isNoSpace5 = true;
 				}
-					
+				
+				//working
 				if(i == iValue - 1 && x != 9 && collumnInt != 0) {
-					isNoSpace6 = vec[x + iValue + 1][collumnInt - 1] != shipField;
+					isNoSpace6 = vec[x + iValue][collumnInt - 1] != shipField;
 				} else {
 						isNoSpace6 = true;
 				}
-					
-				if(i == 0  && x != 0 && collumnInt != 9){
+				//working
+				if(i == 0  && x != 0 && collumnInt != 9) {
 						isNoSpace7 = vec[x - 1][collumnInt + 1] != shipField;
 				} else {
 						isNoSpace7 = true;
 				}
-					
-				if(i == iValue - 1 && x != 9 && collumnInt != 9){
-					isNoSpace8 = vec[x + iValue + 1][collumnInt + 1] != shipField;
+				
+				//working
+				if(i == iValue - 1 && x != 9 && collumnInt != 9) {
+					isNoSpace8 = vec[x + iValue][collumnInt + 1] != shipField;
 				} else {
 					isNoSpace8 = true;
 				}
-					
+				
 				
 				if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 						vec[x+i][collumnInt] = shipField;

@@ -31,7 +31,7 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship,
 	return isEqualK && isEqualR;
 }
 
-//Print tablicy dwu wymiarowej
+//Print tablicy dwuwymiarowej
 auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
  std::vector<std::vector<char>>& vec) -> void {
 	
@@ -53,32 +53,10 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
 
 
 //ustawianie statków, sprawdzenie czy statki na siebie nie nachodzą oraz sprawdzenie czy dookoła statku jest przynajmniej jedno wolne miejsce 
-
-auto settingUpShips(char *argv[], int argvNum, std::string ship, 
-int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row, 
-char shipField, int iValue, char v, char h,
-std::vector<std::vector<char>>& vec) -> void {
-	 
-	
-	bool isNoSpace;
-	bool isNoSpace2;
-	bool isNoSpace3;
-	bool isNoSpace4;
-	bool isNoSpace5;
-	bool isNoSpace6;
-	bool isNoSpace7;
-	bool isNoSpace8;
-	
-	bool isOcupated;
-	
-	//iValue <=1 odnosi się do jednomasztowych statków
-	
-	if(iValue <= 1) {
-		if(argv[argvNum]) {
-			IsInputValid(collumnInt,x,ship,collumn,row);
-			std::cout<<std::endl;
-		
-			for(int i = 0; i < iValue;++i) {
+/*
+auto checkingAllSidesOfShip(bool isNoSpace, bool isNoSpace2, bool isNoSpace3,
+							bool isNoSpace4,bool isNoSpace5,bool isNoSpace6,bool isNoSpace7,
+							bool isNoSpace8,int& collumnInt, char shipField, std::vector<std::vector<char>>& vec, int x) -> void {
 					//sprwadzenie prawej strony  
 					if(collumnInt < 9) {
 						isNoSpace = vec[x][collumnInt+1] != shipField;
@@ -127,8 +105,88 @@ std::vector<std::vector<char>>& vec) -> void {
 					} else {
 						isNoSpace4 = true;
 					}
+} 
+*/
+
+auto settingUpShips(char *argv[], int argvNum, std::string ship, 
+int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row, 
+char shipField, int iValue, char v, char h, std::vector<std::vector<char>>& vec) -> void {
+	 
+	
+	bool isNoSpace;
+	bool isNoSpace2;
+	bool isNoSpace3;
+	bool isNoSpace4;
+	bool isNoSpace5;
+	bool isNoSpace6;
+	bool isNoSpace7;
+	bool isNoSpace8;
+	
+	bool isOcupated;
+	
+	//One masted ships
+	
+	if(iValue <= 1) {
+		if(argv[argvNum]) {
+			IsInputValid(collumnInt,x,ship,collumn,row);
+			std::cout<<std::endl;
+		
+			for(int i = 0; i < iValue;++i) {
+				
+					//sprwadzenie prawej strony  
+					if(collumnInt < 9) {
+						isNoSpace = vec[x][collumnInt+1] != shipField;
+					} else {
+					isNoSpace = true;
+					}
+					//sprwadzenie dolnej prawej strony
+					if(collumnInt < 9 && x < 9) {
+						isNoSpace7 = vec[x+1][collumnInt+1] != shipField;
+					} else {
+						isNoSpace7 = true;
+					}
+					//sprwadzenie górnej prawej strony 
+					if(collumnInt < 9 && x > 0) {
+						isNoSpace6 = vec[x-1][collumnInt+1] != shipField;
+					} else {
+						isNoSpace6 = true;
+					}
+					//sprwadzenie dolnej lewej strony
+					if(collumnInt > 0 && x < 9) {
+						isNoSpace8 = vec[x+1][collumnInt-1] != shipField;
+					} else {
+						isNoSpace8 = true;
+					}
+					//sprwadzenie górnej lewej strony
+					if(collumnInt > 0 && x > 0) {
+						isNoSpace5 = vec[x-1][collumnInt-1] != shipField;
+					} else {
+						isNoSpace5 = true;
+					}
+					//sprwadzenie lewej strony 
+					if(collumnInt > 0) {
+						isNoSpace2 = vec[x][collumnInt-1] != shipField;
+					} else {
+						isNoSpace2 = true;
+					}
+					//sprwadzenie górnej strony
+					if(x < 9) {
+						isNoSpace3 = vec[x+1][collumnInt] != shipField;
+					} else { 
+						isNoSpace3 = true;
+					}
+					//sprwadzenie dolnej strony
+					if(x > 0) {
+						isNoSpace4 = vec[x-1][collumnInt] != shipField;
+					} else {
+						isNoSpace4 = true;
+					}
+					/*
 					
-					
+					checkingAllSidesOfShip(isNoSpace,  isNoSpace2,  isNoSpace3,
+							 isNoSpace4, isNoSpace5, isNoSpace6, isNoSpace7,
+							 isNoSpace8, collumnInt,shipField, vec, x);
+					*/
 					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 						if(vec[x][collumnInt+i] == shipField) {
 							std::cout<< "This field is occupated by other ship\n";
@@ -343,6 +401,90 @@ std::vector<std::vector<char>>& vec) -> void {
 }
 
 
+//IF USER PASSES WRONG PARAMETERS
+/*
+auto foo() -> void {
+	std::getline(std::cin,shot);
+			
+	char* secondCharacter2 = &shot[1];
+ 	
+	bool isEqualToDigit = isdigit(shot[1]);
+			
+	bool isEqualToLetter = (shot[0] >= 'A') && (shot[0] <= 'J');
+
+}
+* */
+// USER INPUT
+
+ auto userInput(std::string shot, int& letter, int& digit, std::vector<char>& collumn,
+ std::vector<char>& collumn, std::vector<std::vector<char>>& vec, char shipField) -> void {
+	
+	std::string score = "";
+	for(int i = 0; i<4; ++i) {
+		
+		std::cout<<"TAKE A SHOT: ";
+	
+		std::getline(std::cin,shot);
+		
+		char* secondCharacter2 = &shot[1];
+ 	
+		bool isEqualToDigit = isdigit(shot[1]);
+	
+		bool isEqualToLetter = (shot[0] >= 'A') && (shot[0] <= 'J');
+			
+		if(isEqualToDigit && isEqualToLetter) {
+			digit = atoi(secondCharacter2);
+		
+		} else {
+			
+			std::cout<<std::endl;
+			std::cout<<"Wrong Parameter, pass correct one "<<std::endl;
+			
+			exit(1);
+		}
+	
+		for(int i = 0; i < collumn.size(); ++i) {
+			if(shot[0] == collumn[i]) {
+				letter = i;
+				break;
+			}
+		}
+	
+		if(vec[digit][letter]  == shipField ) {
+			score += "T";
+			vec[digit][letter]  = 'T';
+		} else if(vec[digit][letter]  == '.') {
+			score += "P";
+			vec[digit][letter] = 'P';
+		} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
+			score += "D";
+		} 
+		
+		for(int i = 0; i<3 ; ++i){
+			
+			int tmp = 3 - i
+			int var;
+		
+			if(vec[row][collumn + tmp] == 'x' || 'T') {
+				
+				for(int j = 0; j < tmp ; ++j){
+					
+					if(vec[row][collumn + j] == 'T'){
+						var++;
+						if(vec == tmp){
+							
+						}
+					}
+				}
+			}
+		}
+		std::cout<<std::endl;
+	}
+
+	std::cout<<score<<std::endl;
+
+ }
+
 
 auto main(int argc, char *argv[]) -> int {
 	
@@ -372,8 +514,13 @@ auto main(int argc, char *argv[]) -> int {
 	char h = 'h';
 	char shipField = 'x';
 	
+	//User input variebles
+	std::string shot;
+	int digit;
+	int letter;
 	
-	//zamiana char argv na stringa 
+	
+	//char argv to string
 	
 	std::string firstShip = std::string(argv[1]);
 	std::string secondShip = std::string(argv[2]);
@@ -407,8 +554,13 @@ auto main(int argc, char *argv[]) -> int {
 		}
 	}
 	 */
-
+	
 	PrintBoard(collumn, row, vec);
+	
+	//USER INPUT
+	
+	userInput(shot,letter,digit,row, collumn,vec, shipField);
+	
 	
 	return 0;
 }

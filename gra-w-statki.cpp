@@ -350,7 +350,7 @@ std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) 
 	int digit;
 	int collumnInt;
 	
-	for(int k = 0; k < 6; ++k) {
+	for(int k = 0; k < 10; ++k) {
 		
 		if(k == 0) {
 			var = 4;
@@ -376,7 +376,7 @@ std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) 
 				}
 			}
 			
-		} else if (ships[k][2] == 'h') {
+		} else if(ships[k][2] == 'h') {
 			
 			for(int i = 0; i < collumn.size(); ++i) {
 				if(ships[k][0] == collumn[i]) {
@@ -393,6 +393,24 @@ std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) 
 					vecOfHits[k]++;
 				}
 			}
+			
+		} else if(k == 6 || k == 7 || k == 8 || k == 9 ) {
+			
+			for(int i = 0; i < collumn.size(); ++i) {
+				if(ships[k][0] == collumn[i]) {
+					collumnInt = i;
+					break;
+				}
+			}
+			
+			char* secondCharacter = &ships[k][1];
+			digit = atoi(secondCharacter);
+			
+			
+			if(vec[digit][collumnInt] == 'T') {
+				vecOfHits[k]++;
+			}
+			
 		}
 	}
 }
@@ -400,13 +418,13 @@ std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) 
 
 auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships, std::string shot, int& letter, int& digit, std::vector<char> collumn,
  std::vector<std::vector<char>>& vec, char shipField) -> void {	
-		
+		std::string score = "";
 		for(int i = 0; i < 2;++i) {
 			
 		std::cout<<"Pass three fields that you want to uncover,"
 		" each parameter must be separated with space: ";
 		
-			std::string score = "";
+			
 			std::getline(std::cin,shot);
 			
 			for(int j = 0; j < collumn.size(); ++j) {
@@ -428,6 +446,7 @@ auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships, std::
 				score += "D";
 			} 
 			
+			
 			for(int j = 0; j < collumn.size(); ++j) {
 				if(shot[3] == collumn[j]) {
 					letter = j;
@@ -446,6 +465,7 @@ auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships, std::
 			} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
 				score += "D";
 			} 
+	
 			
 			for(int j = 0; j < collumn.size(); ++j) {
 				if(shot[6] == collumn[j]) {
@@ -466,17 +486,48 @@ auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships, std::
 			} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
 				score += "D";
 			} 
-			std::cout<<score<<std::endl;
 			
 			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
+
 			
 			if(vecOfHits[0] == 4) {
 				score += "Z";
-			} else if(vecOfHits[1] == 3 || vecOfHits[2] == 3) {
+			}
+			 if(vecOfHits[1] == 3) {
 				score += "Z";
-			} else if(vecOfHits[3] == 2 || vecOfHits[4] == 2 || vecOfHits[5] == 2) {
+			} 
+			 if(vecOfHits[2] == 3) {
+				score += "Z";
+			} 
+			
+			if(vecOfHits[3] == 2) {
+				score += "Z";
+			} 
+			
+			if(vecOfHits[4] == 2) {
+				score += "Z";
+			} 
+			
+			if(vecOfHits[5] == 2) {
+				score += "Z";
+			} 
+			
+			 if(vecOfHits[6] == 1) {
 				score += "Z";
 			}
+			
+			 if(vecOfHits[7] == 1) {
+				score += "Z";
+			}
+			 if(vecOfHits[8] == 1) {
+				score += "Z";
+			}
+			
+			 if(vecOfHits[9] == 1) {
+				score += "Z";
+			}
+			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
+			
 			std::cout<<score<<std::endl;
 	}
 	
@@ -514,7 +565,7 @@ auto main(int argc, char *argv[]) -> int {
 	int digit;
 	int letter;
 	auto ships = std::vector<std::string>{};
-	auto vecOfHits = std::vector<int>{0,0,0,0,0,0};
+	auto vecOfHits = std::vector<int>{0,0,0,0,0,0,0,0,0,0};
 	
 	//zamiana char argv na stringa 
 	
@@ -567,6 +618,6 @@ auto main(int argc, char *argv[]) -> int {
 	
 		userInput(vecOfHits, ships,shot,letter,digit,collumn,vec,shipField);
 
-	
+		PrintBoard(collumn, row, vec);
 	return 0;
 }

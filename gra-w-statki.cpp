@@ -342,9 +342,64 @@ std::vector<std::vector<char>>& vec) -> void {
 	}
 }
 
-auto userInput(std::vector<std::string> ships, std::string shot, int& letter, int& digit, std::vector<char> collumn,
- std::vector<std::vector<char>>& vec, char shipField) -> void {	
+
+auto isShipDestroyed(std::vector<int>& vecOfHits, std::vector<std::string> ships, 
+std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) -> void {
+	
+	int var; 
+	int digit;
+	int collumnInt;
+	
+	for(int k = 0; k < 6; ++k) {
+		
+		if(k == 0) {
+			var = 4;
+		} else if(k == 1 || k == 2) { 
+			var = 3;
+		} else if (k == 3|| k == 4 || k == 5) {
+			var = 2;
+		}
 			
+		if(ships[k][2] == 'v') {
+			for(int i = 0; i < collumn.size(); ++i) {
+				if(ships[k][0] == collumn[i]) {
+					collumnInt = i;
+					break;
+				}
+			}
+			char* secondCharacter3 = &ships[k][1];
+			digit = atoi(secondCharacter3);
+			
+			for(int j = 0; j < var; ++j) {
+				if(vec[digit+j][collumnInt] == 'T') {
+					vecOfHits[k]++;
+				}
+			}
+			
+		} else if (ships[k][2] == 'h') {
+			
+			for(int i = 0; i < collumn.size(); ++i) {
+				if(ships[k][0] == collumn[i]) {
+					collumnInt = i;
+					break;
+				}
+			}
+			
+			char* secondCharacter3 = &ships[k][1];
+			digit = atoi(secondCharacter3);
+			
+			for(int j = 0; j < var;++j) {
+				if(vec[digit][collumnInt+j] == 'T') {
+					vecOfHits[k]++;
+				}
+			}
+		}
+	}
+}
+
+
+auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships, std::string shot, int& letter, int& digit, std::vector<char> collumn,
+ std::vector<std::vector<char>>& vec, char shipField) -> void {	
 		
 		for(int i = 0; i < 2;++i) {
 			
@@ -412,7 +467,7 @@ auto userInput(std::vector<std::string> ships, std::string shot, int& letter, in
 				score += "D";
 			} 
 			std::cout<<score<<std::endl;
-			/*
+			
 			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
 			
 			if(vecOfHits[0] == 4) {
@@ -423,7 +478,6 @@ auto userInput(std::vector<std::string> ships, std::string shot, int& letter, in
 				score += "Z";
 			}
 			std::cout<<score<<std::endl;
-			*/
 	}
 	
  }
@@ -455,14 +509,12 @@ auto main(int argc, char *argv[]) -> int {
 	char v = 'v';
 	char h = 'h';
 	char shipField = 'x';
-		//User input variebles
+	//User input variebles
 	std::string shot;
 	int digit;
 	int letter;
 	auto ships = std::vector<std::string>{};
 	auto vecOfHits = std::vector<int>{0,0,0,0,0,0};
-	
-	
 	
 	//zamiana char argv na stringa 
 	
@@ -476,18 +528,17 @@ auto main(int argc, char *argv[]) -> int {
 	std::string eightShip = std::string(argv[8]);
 	std::string ninethShip = std::string(argv[9]);
 	std::string tenthShip = std::string(argv[10]);
-	/*
-	ships[0] = firstShip; 
-	ships[1] = secondShip; 
-	ships[2] = thirdShip; 
-	ships[3] = frtShip; 
-	ships[4] = fivthShip; 
-	ships[5] = sixthShip; 
-	ships[6] = seventhShip; 
-	ships[7] = eightShip; 
-	ships[8] = ninethShip; 
-	ships[9] = tenthShip; 
-	*/
+	
+	ships.push_back(firstShip);
+	ships.push_back(secondShip);
+	ships.push_back(thirdShip);
+	ships.push_back(frtShip);
+	ships.push_back(fivthShip);
+	ships.push_back(sixthShip);
+	ships.push_back(seventhShip);
+	ships.push_back(eightShip);
+	ships.push_back(ninethShip);
+	ships.push_back(tenthShip);
 
 	settingUpShips(argv,1,firstShip, collumnInt, x, collumn, row, shipField, 4, v,h,vec);
 	settingUpShips(argv,2,secondShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
@@ -514,7 +565,7 @@ auto main(int argc, char *argv[]) -> int {
 	
 	PrintBoard(collumn, row, vec);
 	
-		userInput(ships,shot,letter,digit,collumn,vec,shipField);
+		userInput(vecOfHits, ships,shot,letter,digit,collumn,vec,shipField);
 
 	
 	return 0;

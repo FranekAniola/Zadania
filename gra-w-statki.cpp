@@ -19,13 +19,13 @@ auto IsInputValid(int& collumnInt, int& x,std::string ship,
 	bool isEqualR = (ship[0] >= 'A') && (ship[0] <= 'J');
 	
 	if(isEqualK && isEqualR) {
-	//przypisanie do x drugiego znaku stringa który ma być użyty jako oznaczenie wiersza
+	//przypisanie do int x drugiego znaku stringa który ma być użyty jako integerowe oznaczenie wiersza
 		x = atoi(secondCharacter);
 	} else {
 		std::cout<< "Wrong parameter";
 		exit(1);
 	}
-		//integerowa reprezentacja kolumny 
+		//przypisanie do int collumnInt pierwszego znaku stringa który ma być użyty jako integerowe oznaczenie kolumny
 	for(int i = 0; i < collumn.size(); ++i) {
 		if(ship[0] == collumn[i]) {
 			collumnInt = i;
@@ -56,7 +56,6 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
 	}
 }
 
-
 //ustawianie statków, sprawdzenie czy statki na siebie nie nachodzą oraz sprawdzenie czy dookoła statku jest przynajmniej jedno wolne miejsce 
 
 auto settingUpShips(std::vector<std::vector<ShipPart>>& allShips, char *argv[], int argvNum, std::string ship, 
@@ -64,7 +63,6 @@ int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row,
 char shipField, int iValue, char v, char h,
 std::vector<std::vector<char>>& vec) -> void {
 	 
-	
 	bool isNoSpace;
 	bool isNoSpace2;
 	bool isNoSpace3;
@@ -133,7 +131,6 @@ std::vector<std::vector<char>>& vec) -> void {
 						isNoSpace4 = true;
 					}
 					
-					
 					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 &&
 					  isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
 						 
@@ -144,7 +141,6 @@ std::vector<std::vector<char>>& vec) -> void {
 							static bool runOnce = false;
 
 							vec[x][collumnInt+i] = shipField;
-							
 							
 							if(argvNum == 7){
 								allShips[6].push_back({x,collumnInt});
@@ -448,6 +444,7 @@ auto userInput(std::vector<std::vector<ShipPart>>& allShips,std::vector<int> vec
  std::string shot, int& letter, int& digit, std::vector<char> collumn,
  std::vector<std::vector<char>>& vec, char shipField) -> void {	
 		int counter = 10; // ponieważ jest 10 statkow, jesli ta zmienna będzie równa 0 to gra sie kończy
+		bool correctLetter = false;
 		std::string score = "";
 		
 		for(;;) {
@@ -461,15 +458,30 @@ auto userInput(std::vector<std::vector<ShipPart>>& allShips,std::vector<int> vec
 			" each parameter must be separated with space: ";
 			std::getline(std::cin,shot);
 			
+			
+			
 			for(int k = 0; k<20;k+=3) {
 				for(int j = 0; j < collumn.size(); ++j) {
 					if(shot[k] == collumn[j]) {
 						letter = j;
+						correctLetter = true;
 						break;
+					} 
+					
+					if(correctLetter == false){
+						std::cout<<"Wrong parameter!"<<std::endl;
+						exit(0);
 					}
 				}
 				char* secondCharacter2 = &shot[k+1];
 				digit = atoi(secondCharacter2);
+				
+				bool isDigit = isdigit(shot[k+1]);
+
+				if(isDigit == false) {
+					std::cout<<"Wrong parameter!"<<std::endl;
+					exit(0);
+				}
 				
 				if(isShipDestroyed(allShips, digit, letter)) {
 					score += "Z";
@@ -528,8 +540,6 @@ auto main(int argc, char *argv[]) -> int {
 	
 	auto allShips = std::vector<std::vector<ShipPart>> (10);
 	
-	//zamiana char argv na stringa 
-	
 	std::string firstShip = std::string(argv[1]);
 	std::string secondShip = std::string(argv[2]);
 	std::string thirdShip = std::string(argv[3]);
@@ -564,8 +574,6 @@ auto main(int argc, char *argv[]) -> int {
 	settingUpShips(allShips,argv,10,tenthShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
 	
 	PrintBoard(collumn, row, vec);
-	
-	
 	
 	userInput( allShips, vecOfHits, ships,shot,letter,digit,collumn,vec,shipField);
 	

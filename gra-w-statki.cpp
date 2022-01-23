@@ -3,6 +3,12 @@
 #include <algorithm>
 #include <vector>
 
+struct ShipPart{
+    int x;
+    int y;
+    bool hit = false;
+};
+
 auto IsInputValid(int& collumnInt, int& x,std::string ship,
  std::vector<char>& collumn, std::vector<int>& row) -> bool {
 	char* secondCharacter = &ship[1];
@@ -53,7 +59,7 @@ auto PrintBoard(std::vector<char>& collumn, std::vector<int>& row,
 
 //ustawianie statków, sprawdzenie czy statki na siebie nie nachodzą oraz sprawdzenie czy dookoła statku jest przynajmniej jedno wolne miejsce 
 
-auto settingUpShips(char *argv[], int argvNum, std::string ship, 
+auto settingUpShips(std::vector<std::vector<ShipPart>>& allShips, char *argv[], int argvNum, std::string ship, 
 int& collumnInt, int& x, std::vector<char> collumn, std::vector<int> row, 
 char shipField, int iValue, char v, char h,
 std::vector<std::vector<char>>& vec) -> void {
@@ -128,13 +134,33 @@ std::vector<std::vector<char>>& vec) -> void {
 					}
 					
 					
-					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 && isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
+					if(isNoSpace && isNoSpace2 && isNoSpace3 && isNoSpace4 &&
+					  isNoSpace5 && isNoSpace6 && isNoSpace7 && isNoSpace8) {
+						 
 						if(vec[x][collumnInt+i] == shipField) {
 							std::cout<< "This field is occupated by other ship\n";
 							exit(1);	
 						} else {
+							static bool runOnce = false;
+
 							vec[x][collumnInt+i] = shipField;
+							
+							
+							if(argvNum == 7){
+								allShips[6].push_back({x,collumnInt});
+							}
+							if(argvNum == 8){
+								allShips[7].push_back({x,collumnInt});
+							}
+							if(argvNum == 9){
+								allShips[8].push_back({x,collumnInt});
+							}
+							if(argvNum == 10){
+								allShips[9].push_back({x,collumnInt});
+							}
+							
 						}
+					
 					} else {
 						std::cout<< "There has to be at least on space between ships \n";
 						exit(1);
@@ -235,6 +261,26 @@ std::vector<std::vector<char>>& vec) -> void {
 					
 						vec[x][collumnInt+j] = shipField;
 						
+						if(argvNum == 1){
+							allShips[0].push_back({x,collumnInt+j});
+						}
+						if(argvNum == 2){
+							allShips[1].push_back({x,collumnInt+j});
+						}
+						if(argvNum == 3){
+							allShips[2].push_back({x,collumnInt+j});
+						}
+						if(argvNum == 4){
+							allShips[3].push_back({x,collumnInt+j});
+						}
+						if(argvNum == 5){
+							allShips[4].push_back({x,collumnInt+j});
+						}
+						if(argvNum == 6){
+							allShips[5].push_back({x,collumnInt+j});
+						}
+						
+						
 					} else {
 						std::cout<< "There has to be at least on space between ships \n";
 						exit(1);
@@ -332,6 +378,27 @@ std::vector<std::vector<char>>& vec) -> void {
 				isNoSpace7 && isNoSpace8) {
 					
 					vec[x+i][collumnInt] = shipField;
+					
+					if(argvNum == 1){
+						allShips[0].push_back({x+i,collumnInt});
+					}
+					if(argvNum == 2){
+						allShips[1].push_back({x+i,collumnInt});
+					}
+					if(argvNum == 3){
+						allShips[2].push_back({x+i,collumnInt});
+					}
+					if(argvNum == 4){
+						allShips[3].push_back({x+i,collumnInt});
+					}
+					if(argvNum == 5){
+						allShips[4].push_back({x+i,collumnInt});
+					}
+					if(argvNum == 6){
+						allShips[5].push_back({x+i,collumnInt});
+					}
+					
+
 				} else {
 					std::cout<< "There has to be at least on space between ships \n";
 					exit(1);
@@ -342,92 +409,59 @@ std::vector<std::vector<char>>& vec) -> void {
 }
 
 
-auto isShipDestroyed(std::vector<int>& vecOfHits, std::vector<std::string> ships, 
-std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) -> void {
+auto isShipDestroyed(std::vector<std::vector<ShipPart>>& allShips, int px, int py) -> bool {
+	bool result = false;
+	//std::cout<<px<<" "<<py<<std::endl;
 	
-	int var; 
-	int digit;
-	int collumnInt;
-	bool zatopiony = false;
-	
-	for(int k = 0; k < 10; ++k) {
-		
-		if(k == 0) {
-			var = 4;
-		} else if(k == 1 || k == 2) { 
-			var = 3;
-		} else if (k == 3|| k == 4 || k == 5) {
-			var = 2;
-		}
-			
-		if(ships[k][2] == 'v') {
-			for(int i = 0; i < collumn.size(); ++i) {
-				if(ships[k][0] == collumn[i]) {
-					collumnInt = i;
-					break;
+    for(size_t i = 0 ; i < allShips.size(); ++i){ //iterujemy po statkach
+        for(size_t j = 0; j < allShips[i].size(); ++j){ // iterujemy po fragmentach statków
+            if(allShips[i][j].x == px && allShips[i][j].y == py){//jeżeli segment statku znajduje się w miejscu strzalu, ustaw znacznik hit na true i sprawdź czy reszta statku jest zniszczona
+				if(allShips[i][j].hit == true) {
+					return false;
 				}
-			}
-			char* secondCharacter3 = &ships[k][1];
-			digit = atoi(secondCharacter3);
-			
-			for(int j = 0; j < var; ++j) {
-				if(vec[digit+j][collumnInt] == 'T') {
-					vecOfHits[k]++;
-				}
-			}
-			
-		} else if(ships[k][2] == 'h') {
-			
-			for(int i = 0; i < collumn.size(); ++i) {
-				if(ships[k][0] == collumn[i]) {
-					collumnInt = i;
-					break;
-				}
-			}
-			
-			char* secondCharacter3 = &ships[k][1];
-			digit = atoi(secondCharacter3);
-			
-			for(int j = 0; j < var;++j) {
-				if(vec[digit][collumnInt+j] == 'T') {
-					vecOfHits[k]++;
-				}
-			}
-			
-		} else if(k == 6 || k == 7 || k == 8 || k == 9 ) {
-			
-			for(int i = 0; i < collumn.size(); ++i) {
-				if(ships[k][0] == collumn[i]) {
-					collumnInt = i;
-					break;
-				}
-			}
-			
-			char* secondCharacter = &ships[k][1];
-			digit = atoi(secondCharacter);
-			
-			
-			if(vec[digit][collumnInt] == 'T') {
-				vecOfHits[k]++;
-			}
-			
-		}
-	}
+                allShips[i][j].hit = true;
+                bool isDestroyed = true;
+                for(size_t k = 0; k < allShips[i].size(); ++k){
+                    if(allShips[i][k].hit == false){//jeżeli jakikolwiek segment okrtętu nie jest trafiony to okręt nie jest zatopiony 
+                        isDestroyed = false;
+                    }                    
+                }
+                if(isDestroyed == true){
+					result = true;
+                   // std::cout<<"Trafiony zatoiony"<<std::endl;
+                }
+            }
+        }
+    }
+    /*
+    for(size_t i = 0 ; i < allShips.size(); ++i){ //iterujemy po statkach
+        for(size_t j = 0; j < allShips[i].size(); ++j){ // iterujemy po fragmentach statków
+            std::cout<<allShips[i][j].x<<" "<<allShips[i][j].y<<" "<<allShips[i][j].hit<<" ## ";
+        }
+        std::cout<<std::endl;
+    }*/
+    return result;	
 }
 
-auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships,
+
+auto userInput(std::vector<std::vector<ShipPart>>& allShips,std::vector<int> vecOfHits, std::vector<std::string> ships,
  std::string shot, int& letter, int& digit, std::vector<char> collumn,
  std::vector<std::vector<char>>& vec, char shipField) -> void {	
-		
+		int counter = 10; // ponieważ jest 10 statkow, jesli ta zmienna będzie równa 0 to gra sie kończy
 		std::string score = "";
 		
-		for(int i = 0; i < 2;++i) {
+		for(;;) {
 			
-			std::cout<<"Pass three fields that you want to uncover,"
+			if(counter == 0){
+			std::cout<<"You destroyed all the ships!"<<std::endl;
+			exit(0);
+			}
+			
+			std::cout<<"Pass seven fields that you want to uncover,"
 			" each parameter must be separated with space: ";
 			std::getline(std::cin,shot);
 			
-			for(int k = 0; k<8;k+=3) {
+			for(int k = 0; k<20;k+=3) {
 				for(int j = 0; j < collumn.size(); ++j) {
 					if(shot[k] == collumn[j]) {
 						letter = j;
@@ -436,8 +470,12 @@ auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships,
 				}
 				char* secondCharacter2 = &shot[k+1];
 				digit = atoi(secondCharacter2);
-			
-				if(vec[digit][letter]  == shipField ) {
+				
+				if(isShipDestroyed(allShips, digit, letter)) {
+					score += "Z";
+					counter--;
+					vec[digit][letter]  = 'T';
+				} else if(vec[digit][letter]  == shipField ) {
 					score += "T";
 					vec[digit][letter]  = 'T';
 				} else if(vec[digit][letter]  == '.') {
@@ -446,32 +484,13 @@ auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships,
 				} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
 					score += "D";
 				} 
+				isShipDestroyed(allShips, digit, letter);
 				
 			}
 			
-			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
-			int lValue;
-			
-			for(int l = 0; l < 10;++l) {
-				if(l == 0) {
-					lValue = 4;
-				} else if(l == 1 || l == 2) {
-					lValue = 3;
-				} else if(l == 3 || l == 4 || l == 5) {
-					lValue = 2;
-				} else if(l == 6 || l == 7 || l == 8 || l == 9) {
-					lValue = 1;
-				} 
-				
-				if(vecOfHits[l] == lValue) {
-					score += "Z";
-				}
-			}
-			
-			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
-				
 			std::cout<<score<<std::endl;
 	}
+	
 	
  }
 
@@ -500,11 +519,14 @@ auto main(int argc, char *argv[]) -> int {
 	char h = 'h';
 	char shipField = 'x';
 	//User input variebles
+	
 	std::string shot;
 	int digit;
 	int letter;
 	auto ships = std::vector<std::string>{};
 	auto vecOfHits = std::vector<int>{0,0,0,0,0,0,0,0,0,0};
+	
+	auto allShips = std::vector<std::vector<ShipPart>> (10);
 	
 	//zamiana char argv na stringa 
 	
@@ -530,21 +552,24 @@ auto main(int argc, char *argv[]) -> int {
 	ships.push_back(ninethShip);
 	ships.push_back(tenthShip);
 
-	settingUpShips(argv,1,firstShip, collumnInt, x, collumn, row, shipField, 4, v,h,vec);
-	settingUpShips(argv,2,secondShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
-	settingUpShips(argv,3,thirdShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
-	settingUpShips(argv,4,frtShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
-	settingUpShips(argv,5,fivthShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
-	settingUpShips(argv,6,sixthShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
-	settingUpShips(argv,7,seventhShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
-	settingUpShips(argv,8,eightShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
-	settingUpShips(argv,9,ninethShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec); 
-	settingUpShips(argv,10,tenthShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	settingUpShips(allShips,argv,1,firstShip, collumnInt, x, collumn, row, shipField, 4, v,h,vec);
+	settingUpShips(allShips,argv,2,secondShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
+	settingUpShips(allShips,argv,3,thirdShip, collumnInt, x, collumn, row, shipField, 3, v,h,vec);
+	settingUpShips(allShips,argv,4,frtShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
+	settingUpShips(allShips,argv,5,fivthShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
+	settingUpShips(allShips,argv,6,sixthShip, collumnInt, x, collumn, row, shipField, 2, v,h,vec);
+	settingUpShips(allShips,argv,7,seventhShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	settingUpShips(allShips,argv,8,eightShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
+	settingUpShips(allShips,argv,9,ninethShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec); 
+	settingUpShips(allShips,argv,10,tenthShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
 	
-		PrintBoard(collumn, row, vec);
+	PrintBoard(collumn, row, vec);
 	
-		userInput(vecOfHits, ships,shot,letter,digit,collumn,vec,shipField);
-
-		PrintBoard(collumn, row, vec);
+	
+	
+	userInput( allShips, vecOfHits, ships,shot,letter,digit,collumn,vec,shipField);
+	
+	PrintBoard(collumn, row, vec);
+	
 	return 0;
 }

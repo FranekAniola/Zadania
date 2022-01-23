@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <vector>
 
-
 auto IsInputValid(int& collumnInt, int& x,std::string ship,
  std::vector<char>& collumn, std::vector<int>& row) -> bool {
 	char* secondCharacter = &ship[1];
@@ -349,6 +348,7 @@ std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) 
 	int var; 
 	int digit;
 	int collumnInt;
+	bool zatopiony = false;
 	
 	for(int k = 0; k < 10; ++k) {
 		
@@ -415,119 +415,61 @@ std::vector<char> collumn, std::vector<std::vector<char>>& vec, char shipField) 
 	}
 }
 
-
-auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships, std::string shot, int& letter, int& digit, std::vector<char> collumn,
+auto userInput(std::vector<int> vecOfHits, std::vector<std::string> ships,
+ std::string shot, int& letter, int& digit, std::vector<char> collumn,
  std::vector<std::vector<char>>& vec, char shipField) -> void {	
+		
 		std::string score = "";
+		
 		for(int i = 0; i < 2;++i) {
 			
-		std::cout<<"Pass three fields that you want to uncover,"
-		" each parameter must be separated with space: ";
-		
-			
+			std::cout<<"Pass three fields that you want to uncover,"
+			" each parameter must be separated with space: ";
 			std::getline(std::cin,shot);
 			
-			for(int j = 0; j < collumn.size(); ++j) {
-				if(shot[0] == collumn[j]) {
-					letter = j;
-					break;
+			for(int k = 0; k<8;k+=3) {
+				for(int j = 0; j < collumn.size(); ++j) {
+					if(shot[k] == collumn[j]) {
+						letter = j;
+						break;
+					}
 				}
+				char* secondCharacter2 = &shot[k+1];
+				digit = atoi(secondCharacter2);
+			
+				if(vec[digit][letter]  == shipField ) {
+					score += "T";
+					vec[digit][letter]  = 'T';
+				} else if(vec[digit][letter]  == '.') {
+					score += "P";
+					vec[digit][letter] = 'P';
+				} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
+					score += "D";
+				} 
+				
 			}
-			char* secondCharacter2 = &shot[1];
-			digit = atoi(secondCharacter2);
-		
-			if(vec[digit][letter]  == shipField ) {
-				score += "T";
-				vec[digit][letter]  = 'T';
-			} else if(vec[digit][letter]  == '.') {
-				score += "P";
-				vec[digit][letter] = 'P';
-			} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
-				score += "D";
-			} 
-			
-			
-			for(int j = 0; j < collumn.size(); ++j) {
-				if(shot[3] == collumn[j]) {
-					letter = j;
-					break;
-				}
-			}
-			char* secondCharacter3 = &shot[4];
-			digit = atoi(secondCharacter3);
-		
-			if(vec[digit][letter]  == shipField ) {
-				score += "T";
-				vec[digit][letter]  = 'T';
-			} else if(vec[digit][letter]  == '.') {
-				score += "P";
-				vec[digit][letter] = 'P';
-			} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
-				score += "D";
-			} 
-	
-			
-			for(int j = 0; j < collumn.size(); ++j) {
-				if(shot[6] == collumn[j]) {
-					letter = j;
-					break;
-				}
-			}
-			
-			char* secondCharacter4 = &shot[7];
-			digit = atoi(secondCharacter4);
-		
-			if(vec[digit][letter]  == shipField ) {
-				score += "T";
-				vec[digit][letter]  = 'T';
-			} else if(vec[digit][letter]  == '.') {
-				score += "P";
-				vec[digit][letter] = 'P';
-			} else if(vec[digit][letter] == 'T' || vec[digit][letter]  == 'P') {
-				score += "D";
-			} 
 			
 			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
-
+			int lValue;
 			
-			if(vecOfHits[0] == 4) {
-				score += "Z";
-			}
-			 if(vecOfHits[1] == 3) {
-				score += "Z";
-			} 
-			 if(vecOfHits[2] == 3) {
-				score += "Z";
-			} 
-			
-			if(vecOfHits[3] == 2) {
-				score += "Z";
-			} 
-			
-			if(vecOfHits[4] == 2) {
-				score += "Z";
-			} 
-			
-			if(vecOfHits[5] == 2) {
-				score += "Z";
-			} 
-			
-			 if(vecOfHits[6] == 1) {
-				score += "Z";
+			for(int l = 0; l < 10;++l) {
+				if(l == 0) {
+					lValue = 4;
+				} else if(l == 1 || l == 2) {
+					lValue = 3;
+				} else if(l == 3 || l == 4 || l == 5) {
+					lValue = 2;
+				} else if(l == 6 || l == 7 || l == 8 || l == 9) {
+					lValue = 1;
+				} 
+				
+				if(vecOfHits[l] == lValue) {
+					score += "Z";
+				}
 			}
 			
-			 if(vecOfHits[7] == 1) {
-				score += "Z";
-			}
-			 if(vecOfHits[8] == 1) {
-				score += "Z";
-			}
-			
-			 if(vecOfHits[9] == 1) {
-				score += "Z";
-			}
 			isShipDestroyed(vecOfHits, ships, collumn, vec, shipField);
-			
+				
 			std::cout<<score<<std::endl;
 	}
 	
@@ -551,9 +493,6 @@ auto main(int argc, char *argv[]) -> int {
       
     auto collumn = std::vector<char> {'A','B','C','D','E','F','G','H','I','J'};
     auto row = std::vector<int>{0,1,2,3,4,5,6,7,8,9};
-    
-    
-    PrintBoard(collumn, row, vec);
 	
 	int x;
 	int collumnInt;
@@ -602,19 +541,7 @@ auto main(int argc, char *argv[]) -> int {
 	settingUpShips(argv,9,ninethShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec); 
 	settingUpShips(argv,10,tenthShip, collumnInt, x, collumn, row, shipField, 1, v,h,vec);
 	
-	/*
-	auto funkcja(char* argv[], std::string ship, int collumnInt, int x, std::vector<char> collumn,
-	 std::vector<int> row, char shipField, char v, char h, std::vector<std::vector<char>>& vec)->void{
-		
-		for(int i = 1; i <= 10;++i){
-			if
-			settingUpShips(argv,i,firstShip, collumnInt, x, collumn, row, shipField, 4, v,h,vec);
-		}
-	}
-	 */
-	
-	
-	PrintBoard(collumn, row, vec);
+		PrintBoard(collumn, row, vec);
 	
 		userInput(vecOfHits, ships,shot,letter,digit,collumn,vec,shipField);
 
